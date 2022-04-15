@@ -1,10 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Channel from './pages/Channel';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
+import Channel from '../pages/Channel';
 
 function App() {
   return (
