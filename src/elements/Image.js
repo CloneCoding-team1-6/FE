@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Image = (props) => {
 
-  const {shape, src, size, margin} = props;
+  const {shape, src, size, margin, } = props;
   const styles = {
     src: src,
     size: size,
@@ -37,6 +37,8 @@ const Image = (props) => {
       </React.Fragment>
     );
   }
+
+
   return (
     <React.Fragment>
         <ImageDefault {...styles}></ImageDefault>
@@ -87,5 +89,6 @@ const ImageCircle = styled.div`
   background-position: center;
   margin: ${(props) => props.margin};
 `;
+
 
 export default Image;
