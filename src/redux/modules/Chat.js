@@ -19,11 +19,9 @@ const initialState = {
 }
 
 // 액션 생성
-
 //채팅방
 const getChatRoom = createAction(GET_CHAT_ROOM, (chat_list) => ({ chat_list }));
 const addChatRoom = createAction(ADD_CHAT_ROOM, (room) => ({ room }));
-
 // 채팅 메세지
 const getMessage = createAction(GET_MESSAGE, (message) => ({message}));
 const sendMessage = createAction('chat/WRITEMESSAGE');
@@ -31,7 +29,6 @@ const sendMessage = createAction('chat/WRITEMESSAGE');
 
 
 // 미들웨어
-
 // 방 목록 가져오기
 const getChatRoomDB = () => {
   return async function (dispatch, getState, { history }) {
@@ -88,13 +85,7 @@ const getMessageDB = (roomId) => {
 }
 
 
-
-
-
-
-
 // 리듀서
-
 export default handleActions(
   {
     [GET_CHAT_ROOM]: (state, action) => produce(state, (draft) => {
@@ -119,13 +110,6 @@ export default handleActions(
 )
 
 
-
-
-
-
-
-
-
 const ChatRoomCreators = {
   getChatRoom,
   getChatRoomDB,
@@ -137,7 +121,6 @@ const ChatRoomCreators = {
   getMessageDB,
 
   sendMessage,
-
 }
 
 export { ChatRoomCreators };

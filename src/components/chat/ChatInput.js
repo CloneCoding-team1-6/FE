@@ -51,7 +51,6 @@ setText("");
 
 
 
-
   return (
     <React.Fragment>
     <Grid width="100%">
@@ -60,8 +59,12 @@ setText("");
           <Box2 bg="#fafafa" br="6px 6px 0 0"/>
             <InputBox onChange={setText}/>
           <Button sendBtn _onClick={onSend} value={text}>
+
             <HiPaperAirplane color="#aaa" size="18px" transform="rotate(90)"/>
+
           </Button>
+
+
         </Box>
       </Center>
       </Grid>
