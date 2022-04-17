@@ -4,24 +4,18 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { Chat } from "@material-ui/icons";
 import { Button, Grid } from "../../elements";
 import { HiPaperAirplane } from "react-icons/hi";
 
 
-import Stomp from 'stompjs';
-import SockJS from 'sockjs-client';
-import axios from 'axios';
-
 const ChatInput = (props) => {
-
-  const { _onChange } = props;
 
   // let sock = new SockJS('');
   // let ws = Stomp.over(sock);
 
   // 보내는 사람
   const sender = useSelector((state) => state)
+  
   // 보낼 메세지
   const [text, setText] = React.useState('');
   
@@ -32,31 +26,27 @@ const ChatInput = (props) => {
   const onSend = async () => {
 
     console.log(text.target.value);
-    
+
     const message = {
-      roomId : roomId,
+      roomId: roomId,
       message: text.target.value,
       sender: sender,
       type: 'CHAT',
     }
-    
-    if (text.target.value === "") {
-      return;
-    }
 
-    const token = await sessionStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
-  //   ws.send(
-  //     'api/chat/message',
-  //     {
-  //       token: token,
-  //     },
-  //     JSON.stringify(message)
-  //   )
+    // ws
+    //   .send(
+    //     '  ',
+    //     headers: {
+    //     token: token,
+    //   },
+    //     JSON.stringify(message)
+    //   );
+    // )
 
-  // )
-
-    text.target.value = "";
+setText("");
   };
 
 

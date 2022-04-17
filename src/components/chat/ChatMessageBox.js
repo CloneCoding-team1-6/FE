@@ -3,15 +3,15 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import ChatMessage from "./ChatMessage";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { ChatRoomCreators } from "../../redux/modules/Chat";
 
-import axios from 'axios';
+
 import SockJsClient from 'react-stomp';
 
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-
 
 const ChattingBox = () => {
 
@@ -19,19 +19,21 @@ const ChattingBox = () => {
   const token = sessionStorage.getItem('token');
   const dispatch = useDispatch();
 
-  
-  // 보내는 사람
-  // const userName = useSelector((state) => state)
-  // console.log(userName);
+  // 이전 메세지
+  const message = useSelector((state) => state.chat?.message);
+  console.log("ChattingBox : message", message)
 
-  
+  // 보내는 사람
+  const userName = useSelector((state) => state)
+  console.log(userName);
+
+
   // 방 번호
-  const roomId = useParams();  
+  const roomId = useParams();
 
   // 소켓 통신
-  // let sock = new SockJS('');
+  // let sock = new SockJS(' ');
   // let ws = Stomp.over(sock);
-
 
   // 렌더링시 구독 
   // 페이지 이동시 구독 해제
@@ -42,31 +44,28 @@ const ChattingBox = () => {
     };
   }, [roomId]);
 
-
-
   // 연결하고 구독하기
   function ConnectSub() {
-  //   try {
-  //     ws.connect(
-  //       {
-  //         token: token
-  //       },
-  //       () => {
-  //         ws.subscribe(
-  //           `/sub/api/chat/rooms/${roomId}`,
-  //           (data) => {
-  //             const newMessage = JSON.parse(data.body);
-  //             dispatch(chatActions.getMessages(newMessage));
-  //           },
-  //           { token: token }
-  //         );
-  //       }
-  //     );
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
+    // try {
+    //   ws.connect('url',
+    //     headers: {
+    //     token: token,
+    //   },
+    //     () => {
+    //       ws.subscribe(
+    //         `url`,
+    //         (data) => {
+    //           const newMessage = JSON.parse(data.body);
+    //           dispatch(ChatRoomCreators.getMessageDB(newMessage));
+    //         },
+    //         { token: token }
+    //       );
+    //     }
+    //   );
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
-
 
   // 연결 및 구독 해제
   function DisConnectUnsub() {
@@ -75,59 +74,46 @@ const ChattingBox = () => {
     //     () => {
     //       ws.unsubscribe('sub-0');
     //     },
-    //     { token: token }
+    //     headers : { token: token }
     //   );
     // } catch (error) {
     //   console.log(error);
     // }
   }
 
-  // 웹소켓이 연결될 때 까지 실행하는 함수
+  // 웹소켓이 연결될 때 까지 실행
   function waitForConnection(ws, callback) {
-    setTimeout(
-      function () {
-        // 연결되었을 때 콜백함수 실행
-        if (ws.ws.readyState === 1) {
-          callback();
-          // 연결이 안 되었으면 재호출
-        } else {
-          waitForConnection(ws, callback);
-        }
-      },
-      1 // 밀리초 간격으로 실행
-    );
+    // setTimeout(
+    //   function () {
+
+    //     if (ws.ws.readyState === 1) {
+    //       // 연결되었을 때 콜백함수 실행
+    //       callback();
+    //     } else {
+    //       // 연결이 안 되었으면 재호출
+    //       waitForConnection(ws, callback);
+    //     }
+    //   },
+    //   1 // 밀리초 간격으로 실행
+    // );
   }
 
-
+  // 이전 메세지 가져오기
+  React.useEffect(() => {
+    dispatch(ChatRoomCreators.getMessageDB());
+  }, [])
 
   return (
     <Wrapper>
       <MessageWrapper>
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
-        <ChatMessage />
+
+        {message?.map((message, idx) => {
+          return (
+            <ChatMessage key={idx} message={message?.message} nickName={message?.nickName} createdAt={message.createdAt} />
+          );
+        })}
+
+
       </MessageWrapper>
       <InputWrpper>
         <ChatInput />
@@ -143,14 +129,11 @@ const Wrapper = styled.div`
 
 
 `
-
 const MessageWrapper = styled.div`
   width: 100%;
   height: 80%;
   overflow-y: scroll;
 `
-
-
 const InputWrpper = styled.div`
   position: absolute;
   margin: auto;
@@ -163,6 +146,4 @@ const InputWrpper = styled.div`
 
   backgroud: #fff;
 `
-
-
 export default ChattingBox;

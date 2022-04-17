@@ -1,89 +1,127 @@
 import React from "react";
 import styled from "styled-components";
+import Modal from "react-modal";
+
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { ChatRoomCreators } from "../../redux/modules/Chat";
+
 import { Grid, Text, Button } from "../../elements";
 import { GoChevronDown, GoTriangleDown } from "react-icons/go";
 import { FiEdit } from "react-icons/fi";
-import Modal from "react-modal";
-import AddChatModal from "./AddChatModal";
+
+
 
 const ChatList = (props) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
 
+  // 모달 여닫기
   const [isOpen, setIsOpen] = React.useState(false);
+  // console.log("ChatList : Modal isOpen", isOpen);
 
-  console.log(isOpen);
-  
+  const ChatRoom = useSelector((state) => state.chat?.list);
+  const roomNameRef = React.useRef(null);
+
+  // 채팅방 생성
+  const roomCreate = () => {
+    const roomName = roomNameRef.current.value;
+    if(roomName==="") {
+      window.alert("채널 이름을 입력해주세요!")
+      return;
+    }
+    console.log("AddChatModal : roomCreate : roomName", roomName);
+    dispatch(ChatRoomCreators.addChatRoomDB(roomName));
+    setIsOpen(false);
+  }
+
+  // 채팅방 목록 가져오기
+  React.useEffect(() => {
+    dispatch(ChatRoomCreators.getChatRoomDB());
+  }, [])
+
+
   return (
 
     <React.Fragment>
       <ListBox>
-      
+
         <ListElement height="50px" border="#522653">
           <Grid is_flex>
-            <Text margin="0 10px" bold size="1.2em" color="#fff">새 워크스페이스 <GoChevronDown size="15px"/> </Text>
+            <Text margin="0 10px" bold size="1.2em" color="#fff">새 워크스페이스 <GoChevronDown size="15px" /> </Text>
             <Button writeBtn>
               <FiEdit size="18px" color="#3F0E40" />
             </Button>
           </Grid>
         </ListElement>
-            
-            <ListElement height="30px">
-                <Text margin="0 15px" size="1em" color="#A6A6BC"><GoTriangleDown size="13px"/>　채널</Text>
-            </ListElement>
 
-            <ListElement height="30px">
+        <ListElement height="30px">
+          <Text margin="0 15px" size="1em" color="#A6A6BC"><GoTriangleDown size="13px" />　채널</Text>
+        </ListElement>
+
+
+        {ChatRoom.map((room, idx) => {
+          return (
+            <ListElement key={idx} height="30px" onClick={() => { history.push(`/chat/${room.roomId}`) }}>
               <Grid margin="0 20px">
-                <Text margin="0 15px" size="1em" color="#A6A6BC">#　일반</Text>
-              </Grid> 
+                <Text margin="0 15px" size="1em" color="#A6A6BC">#　{room.roomName}</Text>
+              </Grid>
             </ListElement>
+          );
+        })}
 
-            <ListElement height="30px">
-              <Grid margin="0 20px">
-                <Text margin="0 15px" size="1em" color="#A6A6BC">#　6기 B반 잡담방</Text>
-              </Grid> 
-            </ListElement>
+        <ListElement height="30px" bg="#350D36" onClick={() => setIsOpen(true)}>
+          <Grid is_flex margin="0 20px" >
+            <Text margin=" 40px" size="1em" color="#A6A6BC">
+              <Button addBtn >+</Button>채널 추가</Text>
+          </Grid>
+        </ListElement>
 
-            <ListElement height="30px">
-              <Grid margin="0 20px">
-                <Text margin="0 15px" size="1em" color="#A6A6BC">#　6기 B반 질문방</Text>
-              </Grid> 
-            </ListElement>
-
-            <ListElement height="30px" bg="#350D36" onClick={() => setIsOpen(true)}>
-              <Grid is_flex margin="0 20px" >
-                <Text margin=" 40px" size="1em" color="#A6A6BC">
-                <Button addBtn >+</Button>채널 추가</Text>
-              </Grid> 
-            </ListElement>
-
-        <Modal 
-        isOpen={isOpen} 
-        ariaHideApp={false} 
-        onRequestClose={() => setIsOpen(false)}
-        style={{
+{isOpen? <Modal
+          isOpen={isOpen} ariaHideApp={false} onRequestClose={() => setIsOpen(false)}
+          style={{
             overlay: {
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.75)'
+              position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.75)'
             },
-              content: {
-              position: 'absolute',
-              margin: 'auto',
-              width: 'fit-content',
-              height: 'fit-content',
-              background: '#fff',
-              overflow: 'auto',
-              WebkitOverflowScrolling: 'touch',
-              outline: 'none',
-            }
-            }}>
-            <AddChatModal/>
-        </Modal>
+            content: { position: 'absolute', margin: 'auto', width: 'fit-content', height: 'fit-content', background: '#fff',
+              overflow: 'auto', WebkitOverflowScrolling: 'touch', outline: 'none',
+            }}}>
+
+          <ModalBox>
+            <Text bold margin="0" size="1.8em">채널 생성</Text>
+            <Text color="#858485" > 채널은 팀이 소통하는 공간입니다. 채널은 주제(예:마케팅)를 중심으로 구성하는 것이 가장 좋습니다.</Text>
+            <Grid height="fit-content">
+              <Text bold margin="10px 0">이름</Text>
+              <ModalInput ref={roomNameRef} />
+            </Grid>
+            <Grid padding="15px 0" height="fit-content">
+              <Text bold margin="10px 0">설명(옵션)</Text>
+              <ModalInput />
+              <Text color="#858485" margin="5px 0" size="0.9em">무엇에 대한 채널인가요?</Text>
+            </Grid>
+            <Grid is_flex height="fit-content">
+              <Grid margin="10px 0" width="300px">
+                <Text bold margin="0">비공개로 만들기</Text>
+                <Text margin="5px 0">채널이 비공개로 설정된 경우 초대를 통해서만 조회 또는 참여할 수 있습니다.</Text>
+              </Grid>
+              <Grid width="130px" />
+              <Grid width="fit-content">
+                <Button toggleBtn />
+              </Grid>
+              <ModalBtn
+                onClick={() => {
+                  roomCreate()
+                }} >
+                생성
+              </ModalBtn>
+            </Grid>
+          </ModalBox>
+        </Modal> : null }
+        
+
       </ListBox>
     </React.Fragment>
-    
+
   );
 }
 
@@ -95,7 +133,7 @@ const ListBox = styled.div`
     
 `
 const ListElement = styled.div`
-    overflow: hidden;
+  overflow: hidden;
 
   position: relative;
   box-sizing: border-box;
@@ -111,6 +149,51 @@ const ListElement = styled.div`
     background: #350D36;
   }
 `
+const ModalBox = styled.div`
+    position: relative;
 
+    padding: 30px;
+    width: 470px;
+    height: 450px;
+
+    border-radius: 10px;
+`
+const ModalInput = styled.input`
+    box-sizing: border-box;
+    padding: 0 10px;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #bababa;
+    border-radius: 5px;
+    
+
+    transition: 0.05s;
+    &:focus {
+        border: 1px solid #1264a3;
+        outline: 4px solid #bae1f1;
+    }
+`
+const ModalBtn = styled.button`
+    font-family: 'Pretendard-Regular';
+    font-weight: 700;
+    font-size: 0.9em;
+
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    
+    width: 80px;
+    height: 35px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: #ddd;
+    
+    &:hover {
+      background: #007a5a;
+      color: #fff
+    }
+`
 
 export default ChatList;

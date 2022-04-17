@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import styled from "styled-components";
-import { ChatRoomList, ChatRoom, Header } from "../components";
+import { ChatRoomList, ChatRoomBox, Header } from "../components";
 import { Grid } from "../elements";
 
 
@@ -19,7 +19,7 @@ const Chat = () => {
                         <Grid width="260">
                             <ChatRoomList />
                         </Grid>
-                        <ChatRoom />
+                        <ChatRoomBox />
                     </Grid>
                 </Grid>
             </Box>

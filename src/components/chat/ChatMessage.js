@@ -2,7 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { Grid, Text } from "../../elements";
 
-const ChatMessage = () => {
+
+
+
+
+const ChatMessage = (props) => {
+
+  const {message, nickName, createdAt} = props;
+
   return (
     <React.Fragment>
       <OuterBox>
@@ -11,11 +18,11 @@ const ChatMessage = () => {
             <ImageBox />
             <MessageBox>
               <Grid is_flex width="fit-content" height="30px">
-                <Text bold margin="0">nickName</Text>
-                <Text margin="0 10px" size="0.8em">2022/04/22 10:00:00</Text>
+                <Text bold margin="0">{nickName}</Text>
+                <Text margin="0 10px" size="0.8em">{createdAt}</Text>
               </Grid>
               <Grid width="fit-content" margin="0">
-                <Text margin="0 0">채팅채팅창~!</Text>
+                <Text margin="0 0">{message}</Text>
               </Grid>
             </MessageBox>
           </Grid>

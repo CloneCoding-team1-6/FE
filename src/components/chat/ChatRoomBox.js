@@ -3,20 +3,23 @@ import styled from "styled-components";
 import { Text } from "../../elements";
 import { GoChevronDown } from "react-icons/go";
 
-import ChattingBox from "./ChatMessageBox";
+import ChatMessageBox from "./ChatMessageBox";
 
 
 const ChatRoom = () => {
   return (
     <React.Fragment>
       <ChatBox>
+        
         <ChatRoomHeader>
           <Text bold margin="0 20px" size="1.2em">
             # 일반 
             <GoChevronDown size="15px"/>
           </Text>
         </ChatRoomHeader>
-      <ChattingBox/>
+
+        <ChatMessageBox/>
+      
       </ChatBox>
     </React.Fragment>
   );
