@@ -10,8 +10,8 @@ function App() {
     <React.Fragment>
       <BrowserRouter>
         <Route path="/" exact component={Login}></Route>
-        <Route path="/register" component={Register}></Route>
-        <Route path="/channel" component={Channel}></Route>
+        <Route path="/register" exact component={Register}></Route>
+        <Route path="/channel" exact component={Channel}></Route>
       </BrowserRouter>
     </React.Fragment>
   );
