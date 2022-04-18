@@ -2,7 +2,7 @@ import { borderRadius, flexbox, margin } from '@mui/system';
 import React from 'react';
 import Grid from '../elements/Grid';
 import styled from 'styled-components';
-import Header from '../components/header';
+import Header from '../components/Header';
 import Button  from '@material-ui/core/Button';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { TheaterComedy } from '@mui/icons-material';
@@ -214,6 +214,5 @@ const Checkbox=styled.div`
   display:flex;
 
 `;
-
 
 export default Register;

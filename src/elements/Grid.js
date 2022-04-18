@@ -1,8 +1,9 @@
+
 import React from 'react';
 import styled from 'styled-components';
 
 const Grid = (props) => {
-  const { is_flex, width, maxWidth, padding, border, margin, bg, children, center, _onClick } = props;
+  const { is_flex, width, maxWidth, padding, border, margin, bg, children, center, right, lineheight, _onClick } = props;
 
   const styles = {
     is_flex: is_flex,
@@ -22,14 +23,18 @@ const Grid = (props) => {
   );
 }
 
+
 Grid.defaultProps = {
   children: null,
   is_flex: false,
   width: "100%",
-  maxWidth: '900px',
+  height: "100%",
   padding: false,
   margin: false,
   bg: false,
+  right: false,
+  lineheight: "",
+  maxWidth: '900px',
   center: false,
   border: false,
   _onClick: () => {},
@@ -46,6 +51,8 @@ const GridBox = styled.div`
   ${(props) => (props.is_flex ? `display: flex; align-items: center; justify-content: space-between;` : "")}
   ${(props) => (props.center ? `text-align: center;` : "")}
   ${(props) => (props.border ? `border: ${props.border};` : "")}
+  ${(props) => (props.right ? `text-align: right; align-items: right;` : "")};
+  ${(props) => (props.lineheight ? `line-height: ${props.lineheight};` : "")};
 `;
 
 export default Grid;
