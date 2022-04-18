@@ -38,7 +38,7 @@ const ChatInput = (props) => {
 
     // ws
     //   .send(
-    //     '  ',
+    //     '/pub/api/chat/message',
     //     headers: {
     //     token: token,
     //   },
@@ -63,7 +63,6 @@ setText("");
             <HiPaperAirplane color="#aaa" size="18px" transform="rotate(90)"/>
 
           </Button>
-
 
         </Box>
       </Center>

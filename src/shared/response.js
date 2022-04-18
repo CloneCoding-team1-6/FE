@@ -5,14 +5,14 @@ export const RESP = {
       roomId: 1,
       roomName: "일반",
     },
-    {
-      roomId: 2,
-      roomName: "6기 B반 잡담방",
-    },
-    {
-      roomId: 3,
-      roomName: "6기 B반 질문방",
-    }
+    // {
+    //   roomId: 2,
+    //   roomName: "6기 B반 잡담방",
+    // },
+    // {
+    //   roomId: 3,
+    //   roomName: "6기 B반 질문방",
+    // }
   ],
 
   GET_MESSAGE: [

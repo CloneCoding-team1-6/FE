@@ -8,11 +8,15 @@ import { Grid } from "../elements";
 
 const Chat = () => {
 
+const [chatRoomOpen, setChatRoomOpen] = useState(false);
+const params = useParams();
+console.log("CHAT : PARAMS", params);
+
 
     return (
         <React.Fragment>
             <Box>
-                <Grid bg="#3f0e40" height="100vh">
+                <Grid bg="#fff" height="100vh">
                     <Header />
                     <Grid is_flex>
                         <Grid width="260">

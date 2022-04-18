@@ -4,7 +4,7 @@ import Modal from "react-modal";
 
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ChatRoomCreators } from "../../redux/modules/Chat";
+import { ChatCreators } from "../../redux/modules/Chat";
 
 import { Grid, Text, Button } from "../../elements";
 import { GoChevronDown, GoTriangleDown } from "react-icons/go";
@@ -31,13 +31,15 @@ const ChatList = (props) => {
       return;
     }
     console.log("AddChatModal : roomCreate : roomName", roomName);
-    dispatch(ChatRoomCreators.addChatRoomDB(roomName));
+    dispatch(ChatCreators.addChatRoomDB(roomName));
     setIsOpen(false);
   }
 
+
+
   // 채팅방 목록 가져오기
   React.useEffect(() => {
-    dispatch(ChatRoomCreators.getChatRoomDB());
+    dispatch(ChatCreators.getChatRoomDB());
   }, [])
 
 
@@ -62,7 +64,9 @@ const ChatList = (props) => {
 
         {ChatRoom.map((room, idx) => {
           return (
-            <ListElement key={idx} height="30px" onClick={() => { history.push(`/chat/${room.roomId}`) }}>
+            <ListElement key={idx} height="30px" onClick={() => { 
+              history.push(`/chat/${room.roomId}`) 
+              dispatch(ChatCreators.enterRoomDB(room.roomId) )}}>
               <Grid margin="0 20px">
                 <Text margin="0 15px" size="1em" color="#A6A6BC">#　{room.roomName}</Text>
               </Grid>
@@ -130,6 +134,8 @@ const ListBox = styled.div`
 
     width: 260px;
     height: 100vh;
+
+    background: #3F0E40;
     
 `
 const ListElement = styled.div`

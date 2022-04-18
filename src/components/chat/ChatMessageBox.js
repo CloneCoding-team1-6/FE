@@ -5,7 +5,7 @@ import ChatMessage from "./ChatMessage";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { ChatRoomCreators } from "../../redux/modules/Chat";
+import { ChatCreators } from "../../redux/modules/Chat";
 
 
 import SockJsClient from 'react-stomp';
@@ -47,13 +47,13 @@ const ChattingBox = () => {
   // 연결하고 구독하기
   function ConnectSub() {
     // try {
-    //   ws.connect('url',
-    //     headers: {
+    //   ws.connect('api/chat',
+    //    {
     //     token: token,
     //   },
     //     () => {
     //       ws.subscribe(
-    //         `url`,
+    //         `sub/chat/`,
     //         (data) => {
     //           const newMessage = JSON.parse(data.body);
     //           dispatch(ChatRoomCreators.getMessageDB(newMessage));
@@ -100,7 +100,7 @@ const ChattingBox = () => {
 
   // 이전 메세지 가져오기
   React.useEffect(() => {
-    dispatch(ChatRoomCreators.getMessageDB());
+    dispatch(ChatCreators.getMessageDB());
   }, [])
 
   return (

@@ -12,6 +12,7 @@ function App() {
         <Route path="/" exact component={Login}></Route>
         <Route path="/register" component={Register}></Route>
         <Route path="/channel" component={Channel}></Route>
+        <Route path="/chat" exact component={Chat} />
         <Route path="/chat/:roomid" exact component={Chat} />
       </BrowserRouter>
     </React.Fragment>

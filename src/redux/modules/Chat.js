@@ -33,7 +33,7 @@ const sendMessage = createAction('chat/WRITEMESSAGE');
 const getChatRoomDB = () => {
   return async function (dispatch, getState, { history }) {
     // Axios
-    // .get('/api/chat')
+    // .get('/api/chat/rooms')
     // .then((response) => {
     //     console.log("getChatRoomDB : response", response);
     // }).catch((error) => {
@@ -46,6 +46,8 @@ const getChatRoomDB = () => {
   }
 }
 
+
+
 // 채팅방 추가하기
 const addChatRoomDB = (roomName) => {
   return async function (dispatch, getState, { history }) {
@@ -55,7 +57,7 @@ const addChatRoomDB = (roomName) => {
       roomName: roomName,
     }
     // Axios
-    // .post('/api/chat', roomName)
+    // .post('/api/chat/rooms', roomName)
     // .then((response) => {
     //     console.log("addChatRoomDB : response", response);
     //     dispatch(addChatRoom(roomName));    
@@ -68,16 +70,56 @@ const addChatRoomDB = (roomName) => {
   }
 }
 
+
+// 방 입장하기
+const enterRoomDB = (roomId) => {
+  return async function (dispatch, getState, { history }) {
+    console.log("enterRoomDB : roomId", roomId);
+
+    Axios
+    .get(`/api/chat/${roomId}`)
+    .then((response) => {
+      console.log("enterRoomDB : response", response);
+      // roomId / 채팅방 이름
+      dispatch();
+    }).catch((error) => {
+      console.log("enterRoomDB : error.response", error.response);
+    })
+
+  }
+}
+
+
+// 유저 초대하기
+const inviteUserDB = (username) => {
+  return async function (dispatch, getState, { history }) {
+    console.log("addUserDB : username", username);
+
+    // Axios
+    // .post('/api/chat/invite', username)
+    // .then((response) => {
+    //   console.log(response);
+    // }).catch((error) => {
+    //   console.log(error.response);
+    // })
+
+  }
+}
+
+
 // 이전 메세지 가져오기
 const getMessageDB = (roomId) => {
   return async function (dispatch, getState, { history }) {
-    // Axios.get(`api/chat/${roomId}`)
+
+    // Axios
+    // .get(`/api/chat/rooms/${roomId}/message`)
     // .then((response) => {
     //   console.log("getMessageDB : response", response);
     //   dispatch(getMessage(response.data));
     // }).catch((error) => {
     //   console.log("getMessageDB : ERROR", error);
     // })
+
     const response = RESP.GET_MESSAGE;
     console.log("getMessageDB : response", response);
     dispatch(getMessage(response));
@@ -110,7 +152,7 @@ export default handleActions(
 )
 
 
-const ChatRoomCreators = {
+const ChatCreators = {
   getChatRoom,
   getChatRoomDB,
   
@@ -121,6 +163,10 @@ const ChatRoomCreators = {
   getMessageDB,
 
   sendMessage,
+
+  inviteUserDB,
+
+  enterRoomDB,
 }
 
-export { ChatRoomCreators };
+export { ChatCreators };
