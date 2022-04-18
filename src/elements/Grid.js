@@ -34,7 +34,7 @@ Grid.defaultProps = {
   bg: false,
   right: false,
   lineheight: "",
-  maxWidth: '900px',
+  maxWidth: "",
   center: false,
   border: false,
   _onClick: () => {},

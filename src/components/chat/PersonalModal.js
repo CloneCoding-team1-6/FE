@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { Button, Grid, Text } from "../../elements";
+import { Button, Grid2, Text } from "../../elements";
 
 
 const PersonalModal = (props) => {
@@ -23,17 +23,17 @@ const history = useHistory();
   return (
     <React.Fragment>
       <ModalBox>
-        <Grid onClick={() => {
+        <Grid2 onClick={() => {
           Profile();
         }}>
           <Text bold margin="0">프로필</Text>
-        </Grid>
+        </Grid2>
         <hr />
-        <Grid onClick={() => {
+        <Grid2 onClick={() => {
           LogOut();
         }}>
           <Text bold margin="0">로그아웃</Text>
-        </Grid>
+        </Grid2>
       </ModalBox>
     </React.Fragment>
   );

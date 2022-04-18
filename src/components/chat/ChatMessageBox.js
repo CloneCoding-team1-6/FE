@@ -126,8 +126,6 @@ const Wrapper = styled.div`
   display: block;
   width: 100%;
   height: 100vh;
-
-
 `
 const MessageWrapper = styled.div`
   width: 100%;

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Text, Grid } from "../../elements";
+import { Text, Grid2 } from "../../elements";
 import { GoChevronDown } from "react-icons/go";
 
 import ChatMessageBox from "./ChatMessageBox";
@@ -56,9 +56,9 @@ const ChatRoom = () => {
           <ModalBox>
             <Text bold margin="0" size="1.5em"># 사용자 추가</Text>
             <ModalInput placeholder=" 예: user123 " ref={userName} />
-            <Grid>
+            <Grid2>
               <ModalBtn onClick={inviteUser}>추가</ModalBtn>
-            </Grid>
+            </Grid2>
           </ModalBox>
       
       </Modal>

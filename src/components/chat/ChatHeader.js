@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Grid } from "../../elements";
+import { Grid2 } from "../../elements";
 import { IoSearch } from "react-icons/io5";
 import { BiTime } from "react-icons/bi";
 
@@ -12,36 +12,38 @@ import PersonalModal from "./PersonalModal";
 
 const Header = () => {
 
-  const [isOpen, setIsOpen] = React.useState(false);
+    const [isOpen, setIsOpen] = React.useState(false);
 
 
-  return (
-    <React.Fragment>
-      <HeaderBox>
-        <Grid margin="auto" width="680px" is_flex>
-          <OuterBox>
-            <BiTime className="icon1" color="#fff" size="20px"/>
-            <IoSearch className="icon2" color="#fff" size="20px" />
-            <InputBox placeholder="새 워크스페이스 검색"></InputBox>
-          </OuterBox>
-          <ImageBox onClick={() => {setIsOpen(true)}} />
-        </Grid>
-        {isOpen? <Modal 
-        isOpen={isOpen}
-        ariaHideApp={false} 
-        onRequestClose={() =>setIsOpen(false)}
-        style={{
-            overlay: {
-              position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0)'
-            },
-            content: { position: 'absolute', top:'38px', left: '83vw', width: 'fit-content', height: 'fit-content', background: '#fff',
-            overflow: 'auto', WebkitOverflowScrolling: 'touch', outline: 'none',
-            }}}>
-        <PersonalModal/>
-      </Modal> : null }
-      </HeaderBox>
-    </React.Fragment>
-  );
+    return (
+        <React.Fragment>
+            <HeaderBox>
+                <Grid2 margin="auto" width="680px" is_flex>
+                    <OuterBox>
+                        <BiTime className="icon1" color="#fff" size="20px" />
+                        <IoSearch className="icon2" color="#fff" size="20px" />
+                        <InputBox placeholder="새 워크스페이스 검색"></InputBox>
+                    </OuterBox>
+                    <ImageBox onClick={() => { setIsOpen(true) }} />
+                </Grid2>
+                {isOpen ? <Modal
+                    isOpen={isOpen}
+                    ariaHideApp={false}
+                    onRequestClose={() => setIsOpen(false)}
+                    style={{
+                        overlay: {
+                            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0)'
+                        },
+                        content: {
+                            position: 'absolute', top: '38px', left: '83vw', width: 'fit-content', height: 'fit-content', background: '#fff',
+                            overflow: 'auto', WebkitOverflowScrolling: 'touch', outline: 'none',
+                        }
+                    }}>
+                    <PersonalModal />
+                </Modal> : null}
+            </HeaderBox>
+        </React.Fragment>
+    );
 }
 
 const HeaderBox = styled.div`
