@@ -1,119 +1,72 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+// import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
+import { useHistory } from 'react-router';
+// import { useHistory } from 'react-router-dom';
 
-import { Grid } from "../elements";
-import { IoSearch } from "react-icons/io5";
-import { BiTime } from "react-icons/bi";
+import { Grid, Text, Image} from '../elements';
+// import { getCookie, deleteCookie } from '../shared/Cookie';
 
-import Modal from "react-modal";
-
-import PersonalModal from "./chat/PersonalModal";
-import { autocompleteClasses } from "@mui/material";
-
-
-const Header = () => {
-
-  const [isOpen, setIsOpen] = React.useState(false);
-
-
+const Header = (props) => {
+  const history=useHistory();
+  const is_register=props.is_register;
+  // console.log(props.history);
   return (
     <React.Fragment>
-      <HeaderBox>
-        <Grid margin="auto" width="680px" is_flex>
-          <OuterBox>
-            <BiTime className="icon1" color="#fff" size="20px"/>
-            <IoSearch className="icon2" color="#fff" size="20px" />
-            <InputBox placeholder="새 워크스페이스 검색"></InputBox>
-          </OuterBox>
-          <ImageBox onClick={() => {setIsOpen(true)}} />
-        </Grid>
-        {isOpen? <Modal 
-        isOpen={isOpen}
-        ariaHideApp={false} 
-        onRequestClose={() =>setIsOpen(false)}
-        style={{
-            overlay: {
-              position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0)'
-            },
-            content: { position: 'absolute', top:'38px', left: '83vw', width: 'fit-content', height: 'fit-content', background: '#fff',
-            overflow: 'auto', WebkitOverflowScrolling: 'touch', outline: 'none',
-            }}}>
-        <PersonalModal/>
-      </Modal> : null }
-      </HeaderBox>
+        <Header1>
+          <div style={{flex:1, height:"50px", alignItems:'center', backgroundColor:'white'}}></div>
+          <div style={{flex:1, display:"flex" ,alignItems:'center',justifyContent: "center", backgroundColor:'whtie'}}>
+            <img style ={{alignItems:"center"}} src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg" height="34"/>
+          </div>
+          
+          <div style={{flex:1, display:'flex', justifyContent:'flex-end', alignItems:'center', backgroundColor:'white'}}>
+          {is_register?(""):(<div style={{textAlign:'right', fontSize:'13px',    color: (97,96,97), paddingRight:"40px"}}>
+              Slack을 처음 사용하시나요?
+              <br/>
+              <a style={{ color:"blue", fontWeight:"bold"}} onClick={()=>{
+                console.log('history push to register1');
+                history.push('./register');
+              }}>계정 생성</a>
+              {/* <button onClick={()=>{history.push('./register'); */}
+            {/* console.log('history push to register1');}}>asdf</button> */}
+            </div>)}
+            
+          </div>
+        </Header1>
     </React.Fragment>
   );
-}
+};
 
-const HeaderBox = styled.div`
+Header.defaultProps = {};
+
+const Logo = styled.a`
+  text-decoration: none;
+  img {
+    width: 15%;
+  }
+  div {
+    background-image: url("https://user-images.githubusercontent.com/91959791/163001319-d6e449d7-8443-4106-8128-902e93a889f4.png");
+    background-size: cover;
+    background-position: center;
+    width: 150px;
+    height: 150px;
+    margin: -20px auto 0;
+    padding: 0 30px 0px 30px;
+    // margin: -20px 0 0 0;
+  }
+`;
+const Header1=styled.div`
+    padding: 48px 0 40px;
     width: 100%;
-    height: 40px; 
-    background: #350D36;
-`
+    display: flex;
+    flex:1
+    align-items: center;
+    // grid-template-columns: repeat(3,1fr);
+    // grid-template-rows(minmax(127px,127px));
+    background-color:white;
+`;
 
-const OuterBox = styled.div`
-  display: flex;
-  position: relative;  
-  margin: auto;
+const Childheader=styled.div`
 
-  width: 70vw;
-  height: 30px;
-
-  .icon1 {
-    position: absolute;
-    top: 4px;
-    left: -30px;
-    }
-  .icon2 {
-    position: absolute;
-    top: 4px;
-    right: 0px;
-    border: 3px solid black;
-  }
-`
-
-const InputBox = styled.input`
-  font-family: 'Pretendard-Regular';
-  position: absolute;
-
-  top: 1px;
-  left: 0px;
-  right: 0px;
-
-  padding: 0 10px;
-  height: 28px;
-
-  border: none;
-  border-radius: 5px;
-
-  background: #5d3d5e;
-
-  color: #fff;
-  &::placeholder {
-    color: #fff;
-    font-weight: 800;
-  }
-  &:hover {
-    backgroud: #6f5170;
-  }
-  &:focus {
-    outline: none;
-  }
-`
-
-const ImageBox = styled.div`
-  position: absolute;
-  right: 15px;
-
-  width: 30px;
-  height: 30px;
-
-  border-radius: 4px;
-
-  background-image: url('https://i.pinimg.com/474x/19/08/a7/1908a7eae6903f9d5861b62b1e025788.jpg');
-  background-size: cover;
-  ${'' /* background: #ddd; */}
-`
-
-
+`;
 export default Header;

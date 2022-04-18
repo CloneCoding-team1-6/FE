@@ -1847,6 +1847,11 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@juggle/resize-observer@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.3.1.tgz#b50a781709c81e10701004214340f25475a171a0"
+  integrity sha512-zMM9Ds+SawiUkakS7y94Ymqx+S0ORzpG3frZirN3l+UlXUmSUR7hF4wxCVqW+ei94JzV5kt0uXBcoOEAuiydrw==
+
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.3.tgz#0300943770e04231041a51bd39f0439b5c7ab4f0"
@@ -8458,6 +8463,7 @@ react-scripts@5.0.0:
   optionalDependencies:
     fsevents "^2.3.2"
 
+<<<<<<< HEAD
 react-stomp@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/react-stomp/-/react-stomp-5.1.0.tgz#c79bb522f037489b635d8fa66e139ee9f656c32b"
@@ -8467,6 +8473,14 @@ react-stomp@^5.1.0:
     net "^1.0.2"
     sockjs-client "^1.5.0"
     stompjs "^2.3.3"
+=======
+react-sparkle@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-sparkle/-/react-sparkle-1.0.9.tgz#3e034da5ade47cd6b7081235221d088d92444bdd"
+  integrity sha512-MDRn+yaSf9PatEXJlNSqR9UHSj7jNa1bjJA5v9LQCIxP/k/fLWWwnRNv9QnNeKcELsYyeQgkTf4LTLaCccyzqQ==
+  dependencies:
+    "@juggle/resize-observer" "^3.3.1"
+>>>>>>> f075e85ccce90c0591c4b8a38ddc67fba6f3d063
 
 react-thunk@^1.0.0:
   version "1.0.0"
