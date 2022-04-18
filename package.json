@@ -26,18 +26,12 @@
     "react-bootstrap": "^2.2.2",
     "react-dom": "^18.0.0",
     "react-icons": "^4.3.1",
-<<<<<<< HEAD
     "react-modal": "^3.14.4",
     "react-redux": "^7.2.8",
     "react-router-dom": "5.2.0",
     "react-scripts": "5.0.0",
     "react-stomp": "^5.1.0",
-=======
-    "react-redux": "^7.2.8",
-    "react-router-dom": "5.2.0",
-    "react-scripts": "5.0.0",
     "react-sparkle": "^1.0.9",
->>>>>>> f075e85ccce90c0591c4b8a38ddc67fba6f3d063
     "react-thunk": "^1.0.0",
     "redux": "^4.1.2",
     "redux-actions": "^2.6.5",

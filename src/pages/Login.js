@@ -2,7 +2,7 @@ import { borderRadius, flexbox, margin } from '@mui/system';
 import React from 'react';
 import Grid from '../elements/Grid';
 import styled from 'styled-components';
-import Header from '../components/header';
+import Header from '../components/Header';
 import Button  from '@material-ui/core/Button';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { TheaterComedy } from '@mui/icons-material';
@@ -139,8 +139,6 @@ const inputstyles={
     minWidth:"96px",
     margin:"15px 0px 15px 0px",
 
-<<<<<<< HEAD
-=======
 }
 const warninginput={
 
@@ -197,5 +195,4 @@ background-color:white;
 //     },
 //   }));
 
->>>>>>> f075e85ccce90c0591c4b8a38ddc67fba6f3d063
 export default Login;

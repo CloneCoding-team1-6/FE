@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import styled from "styled-components";
-import { ChatRoomList, ChatRoomBox, Header } from "../components";
+import { ChatRoomList, ChatRoomBox, ChatHeader } from "../components";
 import { Grid } from "../elements";
 
 
@@ -17,7 +17,7 @@ console.log("CHAT : PARAMS", params);
         <React.Fragment>
             <Box>
                 <Grid bg="#fff" height="100vh">
-                    <Header />
+                    <ChatHeader />
                     <Grid is_flex>
                         <Grid width="260">
                             <ChatRoomList />
