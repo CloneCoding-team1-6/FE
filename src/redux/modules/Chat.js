@@ -56,17 +56,17 @@ const addChatRoomDB = (roomName) => {
       roomId: 1,
       roomName: roomName,
     }
-    // Axios
-    // .post('/api/chat/rooms', roomName)
-    // .then((response) => {
-    //     console.log("addChatRoomDB : response", response);
-    //     dispatch(addChatRoom(roomName));    
-    // }).catch((error) => {
-    //     console.log("addChatRoomDB : ERROR", error.response)
-    // })
+    Axios
+    .post('/api/chat/rooms', roomName)
+    .then((response) => {
+        console.log("addChatRoomDB : response", response);
+        dispatch(addChatRoom(roomName));    
+    }).catch((error) => {
+        console.log("addChatRoomDB : ERROR", error.response)
+    })
 
     // 서버 연결시 삭제
-    dispatch(addChatRoom(room));
+    // dispatch(addChatRoom(room));
   }
 }
 

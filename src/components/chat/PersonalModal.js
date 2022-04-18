@@ -1,15 +1,18 @@
 import React from "react";
+import Modal from "react-modal";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Button, Grid2, Text } from "../../elements";
-
+import UserProfile from "../UserProfile";
 
 const PersonalModal = (props) => {
 const history = useHistory();
 
+const [isOpen, setIsOpen] = React.useState(false);
 
   const Profile = () => {
     console.log("프로필!")
+    setIsOpen(true);
   }
 
   const LogOut = () => {
@@ -23,18 +26,34 @@ const history = useHistory();
   return (
     <React.Fragment>
       <ModalBox>
-        <Grid2 onClick={() => {
-          Profile();
-        }}>
+        <ButtonBox onClick={Profile}>
           <Text bold margin="0">프로필</Text>
-        </Grid2>
+        </ButtonBox>
         <hr />
-        <Grid2 onClick={() => {
-          LogOut();
-        }}>
+        <ButtonBox onClick={LogOut}>
           <Text bold margin="0">로그아웃</Text>
-        </Grid2>
+        </ButtonBox>
       </ModalBox>
+      
+      
+      <Modal 
+      isOpen={isOpen} 
+      ariaHideApp={false} 
+      onRequestClose={() => 
+      setIsOpen(false)}
+          style={{
+            overlay: {
+              position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.75)'
+            },
+            content: { position: 'absolute', margin: 'auto', width: 'fit-content', height: 'fit-content', background: '#fff',
+              overflow: 'auto', WebkitOverflowScrolling: 'touch', outline: 'none',
+            }}}>
+
+        <UserProfile/>
+      
+      </Modal>
+    
+    
     </React.Fragment>
   );
 }
@@ -47,6 +66,7 @@ const ModalBox = styled.div`
 `
 
 const ButtonBox = styled.div`
+  margin: auto;
   width: fit-content;
   height: fit-content;
 `

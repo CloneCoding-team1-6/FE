@@ -5,9 +5,9 @@ import { GoChevronDown } from "react-icons/go";
 
 import ChatMessageBox from "./ChatMessageBox";
 import Modal from "react-modal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ChatCreators } from "../../redux/modules/Chat";
-
+import user, { userActions } from "../../redux/modules/user";
 
 const ChatRoom = () => {
   const dispatch = useDispatch();
@@ -16,6 +16,8 @@ const ChatRoom = () => {
   const openModal = () => {
     setIsOpen(true);    
   }
+
+  const user_list = useSelector((state) => state.user?.list);
 
   const userName = React.useRef(null);
   const inviteUser = () => {
@@ -26,6 +28,11 @@ const ChatRoom = () => {
     dispatch(ChatCreators.inviteUserDB(userName.current.value));
     setIsOpen(false);
   }
+
+  React.useEffect(() => {
+    dispatch(userActions.getAllUserDB())
+  }, [])
+
 
   return (
     <React.Fragment>
@@ -49,7 +56,7 @@ const ChatRoom = () => {
             overlay: {
               position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.75)'
             },
-            content: { position: 'absolute', margin: 'auto', width: 'fit-content', height: '165px', background: '#fff',
+            content: { position: 'absolute', margin: 'auto', width: 'fit-content', height: 'fit-content', background: '#fff',
               overflow: 'auto', borderRadius: '10px', WebkitOverflowScrolling: 'touch', outline: 'none',
             }}}>
         
@@ -59,6 +66,12 @@ const ChatRoom = () => {
             <Grid2>
               <ModalBtn onClick={inviteUser}>추가</ModalBtn>
             </Grid2>
+            <Text bold size="1.2em"># 사용자 목록</Text>
+            {user_list?.map((user, idx) => {
+              return ( 
+                <Text>- {user?.nickName} ({user?.username})</Text>
+              );
+            })}
           </ModalBox>
       
       </Modal>
@@ -88,6 +101,7 @@ const ChatRoomHeader = styled.div`
 `
 const ModalBox = styled.div`
     position: relative;
+    margin-bottom : 40px;
 
     padding: 10px;
     width: 470px;
@@ -142,7 +156,7 @@ const ModalBtn = styled.button`
 
     position: absolute;
     right: 10px;
-    bottom: -20px;
+    bottom: -30px;
 
     width: 80px;
     height: 35px;

@@ -13,6 +13,11 @@ import SockJsClient from 'react-stomp';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
+
+  // 소켓 통신
+  // let sock = new SockJS('http://54.180.96.119/ws-stomp');
+  // let ws = Stomp.over(sock);
+
 const ChattingBox = () => {
 
   // 토큰
@@ -31,10 +36,6 @@ const ChattingBox = () => {
   // 방 번호
   const roomId = useParams();
 
-  // 소켓 통신
-  // let sock = new SockJS(' ');
-  // let ws = Stomp.over(sock);
-
   // 렌더링시 구독 
   // 페이지 이동시 구독 해제
   React.useEffect(() => {
@@ -48,7 +49,7 @@ const ChattingBox = () => {
   function ConnectSub() {
     // try {
     //   ws.connect('api/chat',
-    //    {
+    //   {
     //     token: token,
     //   },
     //     () => {
@@ -56,7 +57,7 @@ const ChattingBox = () => {
     //         `sub/chat/`,
     //         (data) => {
     //           const newMessage = JSON.parse(data.body);
-    //           dispatch(ChatRoomCreators.getMessageDB(newMessage));
+    //           dispatch(ChatCreators.getMessageDB(newMessage));
     //         },
     //         { token: token }
     //       );
@@ -74,7 +75,7 @@ const ChattingBox = () => {
     //     () => {
     //       ws.unsubscribe('sub-0');
     //     },
-    //     headers : { token: token }
+    //     { token: token }
     //   );
     // } catch (error) {
     //   console.log(error);

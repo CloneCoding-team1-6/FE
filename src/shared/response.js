@@ -36,6 +36,33 @@ export const RESP = {
       message:"채팅내용4",
       createdAt: "2022-04-17 12:51:55",
     },
+  ],
+
+  GET_ALL_USER: [
+    {
+      username: "username1",
+      nickName: "닉네임",
+    },
+    {
+      username: "username2",
+      nickName: "닉네임2",
+    },
+    {
+      username: "username3",
+      nickName: "닉네임3",
+    },
+    {
+      username: "username1",
+      nickName: "닉네임",
+    },
+    {
+      username: "username2",
+      nickName: "닉네임2",
+    },
+    {
+      username: "username3",
+      nickName: "닉네임3",
+    },
   ]
 
 };

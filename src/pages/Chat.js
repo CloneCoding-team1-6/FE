@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import styled from "styled-components";
 import { ChatRoomList, ChatRoomBox, ChatHeader } from "../components";
-import { Grid } from "../elements";
+import { Grid2 } from "../elements";
 
 
 const Chat = () => {
@@ -16,15 +16,15 @@ console.log("CHAT : PARAMS", params);
     return (
         <React.Fragment>
             <Box>
-                <Grid bg="#fff" height="100vh">
+                <Grid2 bg="#fff" height="100vh">
                     <ChatHeader />
-                    <Grid is_flex>
-                        <Grid width="260">
+                    <Grid2 is_flex>
+                        <Grid2 width="260">
                             <ChatRoomList />
-                        </Grid>
+                        </Grid2>
                         <ChatRoomBox />
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
             </Box>
         </React.Fragment>
     );
