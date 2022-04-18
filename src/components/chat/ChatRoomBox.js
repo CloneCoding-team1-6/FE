@@ -7,7 +7,6 @@ import ChatMessageBox from "./ChatMessageBox";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { ChatCreators } from "../../redux/modules/Chat";
-import user, { userActions } from "../../redux/modules/user";
 
 const ChatRoom = () => {
   const dispatch = useDispatch();
@@ -29,9 +28,9 @@ const ChatRoom = () => {
     setIsOpen(false);
   }
 
-  React.useEffect(() => {
-    dispatch(userActions.getAllUserDB())
-  }, [])
+  // React.useEffect(() => {
+  //   dispatch(userActions.getAllUserDB())
+  // }, [])
 
 
   return (

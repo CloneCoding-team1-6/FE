@@ -21,9 +21,9 @@ const getUser = createAction(GET_USER, (user) => ({ user }));
 
 // initialState
 const initialState = {
-  username: '',
-  usernickname: '',
-  user_profile: '',
+  username:'',
+  usernickname:'',
+  user_profile:'',
   is_loaded: false,
   is_login: false,
 };
@@ -31,27 +31,27 @@ const initialState = {
 // middleware actions
 
 const loginFB = (id, pwd) => {
-  return function (dispatch, getState, { history }) {
+  return function (dispatch, getState, {history}) {
     console.log("username : " + id, "password : " + pwd, '전송, sessionID 요청');
 
-    apis.login(id, pwd)
+    apis.login(id,pwd)
       .then((res) => {
-        const token = res.headers.authorization.split(" ")[1];
+        const token = res.headers.authorization.split(" ")[1]; 
         // 토큰 복호화
         // const accessToken = JSON.parse(atob(token.split(".")[1]));
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
         const user_info = JSON.parse(jsonPayload);
         console.log('token 복호화 ::', user_info);
-        console.log("id :", user_info.USER_NAME, "user_name :", user_info.NICK_NAME);
+        console.log("id :",user_info.USER_NAME, "user_name :",user_info.NICK_NAME);
         // const user_info = res.config.data;
-
+        
         dispatch(setUser({
-          id: user_info.USER_NAME,
-          user_name: user_info.NICK_NAME,
+          id: user_info.USER_NAME,  
+          user_name: user_info.NICK_NAME,  
           user_profile: "https://user-images.githubusercontent.com/91959791/162985545-26ce4013-8004-4211-9948-c616aab0182a.png"
         }))
         setCookie("is_login", "success"); // 토큰 여기 들어가야함
@@ -59,30 +59,30 @@ const loginFB = (id, pwd) => {
         // history.replace('/');
         history.replace('/chat');
         // window.location.reload();
-      }).catch((err) => {
-        console.log("로그인 오류", err);
-        window.alert("일치하는 회원이 없습니다!!\n아이디와 비밀번호를 다시 확인해주세요! :)");
-        window.location.reload();
-
+        }).catch((err)=>{
+          console.log("로그인 오류", err);
+          window.alert("일치하는 회원이 없습니다!!\n아이디와 비밀번호를 다시 확인해주세요! :)");
+          window.location.reload();
+        
       });
+    
 
-
-  }
+    }
 };
 
 const signupFB = (id, usernickname, pwd, pwcheck) => {
-  return function (dispatch, getState, { history }) {
+  return function (dispatch, getState, {history}) {
     console.log("username : " + id, "password : " + pwd, '전송, sessionID 요청');
 
-    apis.signup(id, usernickname, pwd, pwcheck)
-      .then((res) => {
+    apis.signup(id,usernickname,pwd,pwcheck)
+      .then((res)=>{
         console.log('백데이터 전달 :', res); // 회원가입 성공 유무를 서버에서 알려줘야할거같음... 
         console.log("회원가입 성공");
         window.alert("환영합니다!\n회원가입이 완료되셨습니다");
         history.replace('/'); // 로그인창으로 이동
       })
-      .catch((error) => {
-        console.log('id:', id, ' usernickname:', usernickname, ' pwd:', pwd, ' pwdcheck', pwcheck)
+      .catch((error)=>{
+        console.log('id:',id,' usernickname:',usernickname,' pwd:',pwd,' pwdcheck',pwcheck)
         console.log(error);
       })
 
@@ -90,44 +90,44 @@ const signupFB = (id, usernickname, pwd, pwcheck) => {
 };
 
 const loginCheckFB = () => {
-  return function (dispatch, getState, { history }) {
+  return function (dispatch, getState, {history}) {
 
     apis.islogin().then((res) => {
-      console.log("res 확인", res.data);
-      if (res.data) { // data 값이 있다면
-        const token = localStorage.getItem('token');
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-        const user_info = JSON.parse(jsonPayload);
-        console.log('로그인정보 :', user_info);
-        const _user = getState().user;
-        // console.log(_user);
-        // console.log('유저정보11111 :', token);
-        dispatch(setUser({
-          username: user_info.USER_NAME,
-          usernickname: user_info.NICK_NAME,
-          user_profile: "https://user-images.githubusercontent.com/91959791/162985545-26ce4013-8004-4211-9948-c616aab0182a.png"
-        }))
-
-      } else {
-        console.log("유저데이터 없음");
-        dispatch.logOut();
-      }
-    }).catch((error) => {
-      console.log("토큰 전달 오류", error);
-    });
-  }
+        console.log("res 확인", res.data);
+        if (res.data) { // data 값이 있다면
+          const token = localStorage.getItem('token');
+          const base64Url = token.split('.')[1];
+          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+              return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+          }).join(''));
+          const user_info = JSON.parse(jsonPayload);
+          console.log('로그인정보 :', user_info);
+          const _user = getState().user;
+          // console.log(_user);
+          // console.log('유저정보11111 :', token);
+          dispatch(setUser({
+            username: user_info.USER_NAME,  
+            usernickname: user_info.NICK_NAME,  
+            user_profile: "https://user-images.githubusercontent.com/91959791/162985545-26ce4013-8004-4211-9948-c616aab0182a.png"
+          }))
+          
+        } else {
+          console.log("유저데이터 없음");
+          dispatch.logOut();
+        }
+      }).catch((error) => {
+        console.log("토큰 전달 오류", error);
+      });
+  }  
 };
 
 const logoutFB = () => {
-  return function (dispatch, getState, { history }) {
+  return function (dispatch, getState, {history}) {
     dispatch(logOut());
     history.replace('/');
   }
-
+  
 };
 
 
@@ -138,22 +138,22 @@ export default handleActions(
       produce(state, (draft) => {
         console.log('set user!!! ', action.payload.user);
         draft.username = action.payload.user.username;
-        draft.usernickname = action.payload.user.usernickname;
-        draft.user_profile = action.payload.user.user_profile;
-        draft.is_login = true;
+        draft.usernickname=action.payload.user.usernickname;
+        draft.user_profile=action.payload.user.user_profile;
+				draft.is_login = true;
         draft.is_loaded = true;
         // console.log(action);
         // console.log('set user22!!! ');
       }),
-    [LOG_OUT]: (state, action) =>
+		[LOG_OUT]: (state, action) =>
       produce(state, (draft) => {
         localStorage.removeItem('token');
-        deleteCookie("is_login");
+        deleteCookie("is_login"); 
         draft.user = null;
-        draft.is_login = false;
-        draft.is_loaded = true;
+				draft.is_login = false;
+        draft.is_loaded = true;        
       }),
-    [GET_USER]: (state, action) => produce(state, (draft) => { }),
+    [GET_USER]: (state, action) => produce(state, (draft) => {}),
   },
   initialState
 );

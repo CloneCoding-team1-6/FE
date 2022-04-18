@@ -7,14 +7,16 @@ import Button  from '@material-ui/core/Button';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { TheaterComedy } from '@mui/icons-material';
 import { borders } from '@mui/system';
-
+import { apis } from '../shared/api';
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import { idCheck}  from '../shared/common';
-
+import {useDispatch } from 'react-redux'; 
+import { actionCreators as userActions } from '../redux/modules/User';
 
 // import { ButtonProps } from '@mui/material/Button';
 const Register = (props) => {
+  const dispatch=useDispatch();
     const [id, setId]= React.useState('');
     const [nickname,setNickname] =React.useState('');
     const [pwd,setPwd]= React.useState('');
@@ -23,9 +25,14 @@ const Register = (props) => {
     const [warning,setWarning]=React.useState(false);
     // let warning=false;
     // console.log();
-    const Register = () =>{
+    const signup = () =>{
+      
+        if (id === '' | nickname === '' | pwd === '' | pwdcheck === '') {
+          window.alert('아이디, 비밀번호, 닉네임을 모두 입력해주세요!');
+          return;
+        };
+    
         
-        console.log('button test');
         if (!idCheck(id)) {
             
             
@@ -37,10 +44,19 @@ const Register = (props) => {
             window.alert('아이디와 비밀번호를 모두 입력해주세요!');
             return;
           }
-    }
+          dispatch(userActions.signupFB(id, nickname, pwd, pwdcheck));
+        
+    };
     const EmailCheck =()=>{
       console.log("email check");
-
+      apis.idcheck(id).then((res)=>{
+        console.log('emailcheck2');
+        console.log(res);
+      })
+      .catch((error)=>{
+        console.log('emailcheck error');
+        console.log(error);
+      })
 
     }
     const NicknameCheck =()=>{
@@ -55,7 +71,7 @@ const Register = (props) => {
         console.log(warning);
     },[warning]);
     
-  
+    
   return (
     <Page>
         <Header is_register/>
@@ -119,10 +135,10 @@ const Register = (props) => {
                     console.log(pwd==pwdcheck);
                     if(pwd==pwdcheck)
                     {
-                      setWarning(true);
+                      setWarning(false);
                     }
                     else{
-                      setWarning(false);
+                      setWarning(true);
                     }
                   }}
                     // hintText="Password"
@@ -136,7 +152,8 @@ const Register = (props) => {
                 </div>
                 <Button variant='contained' style={{height:"44px",fontWeight:"bold", width:"100%", margin:"24px 0px 0px 0px", fontSize:"18px",color:"white", backgroundColor:"#4a154b"}} onClick={()=>{
                     {
-                      Register();
+                      signup();
+                      console.log('회원가입');
                     }}}>회원가입</Button>
 
                 
@@ -144,7 +161,7 @@ const Register = (props) => {
         </Main>
     </Page>
   );
-}
+                  }
 
 const styles={
     width:"100%",

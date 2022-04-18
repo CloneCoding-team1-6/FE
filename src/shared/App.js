@@ -1,20 +1,21 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { Channel, Chat, Login, Register } from '../pages'
 import { AddChatModal } from '../components';
-
+import { ConnectedRouter } from "connected-react-router";
+import { history } from "../redux/ConfigStore";
 
 function App() {
   return (
     <React.Fragment>
-      <BrowserRouter>
+      <ConnectedRouter history={history}>
         <Route path="/" exact component={Login}></Route>
         <Route path="/chat" exact component={Chat} />
         <Route path="/chat/:roomid" exact component={Chat} />
         <Route path="/register" exact component={Register}></Route>
         <Route path="/channel" exact component={Channel}></Route>
-      </BrowserRouter>
+      </ConnectedRouter>
     </React.Fragment>
   );
 }

@@ -95,13 +95,13 @@ const inviteUserDB = (username) => {
   return async function (dispatch, getState, { history }) {
     console.log("addUserDB : username", username);
 
-    // Axios
-    // .post('/api/chat/invite', username)
-    // .then((response) => {
-    //   console.log(response);
-    // }).catch((error) => {
-    //   console.log(error.response);
-    // })
+    Axios
+    .post('/api/chat/invite', username)
+    .then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error.response);
+    })
 
   }
 }
@@ -111,18 +111,18 @@ const inviteUserDB = (username) => {
 const getMessageDB = (roomId) => {
   return async function (dispatch, getState, { history }) {
 
-    // Axios
-    // .get(`/api/chat/rooms/${roomId}/message`)
-    // .then((response) => {
-    //   console.log("getMessageDB : response", response);
-    //   dispatch(getMessage(response.data));
-    // }).catch((error) => {
-    //   console.log("getMessageDB : ERROR", error);
-    // })
+    Axios
+    .get(`/api/chat/rooms/${roomId}/message`)
+    .then((response) => {
+      console.log("getMessageDB : response", response);
+      dispatch(getMessage(response.data));
+    }).catch((error) => {
+      console.log("getMessageDB : ERROR", error);
+    })
 
-    const response = RESP.GET_MESSAGE;
-    console.log("getMessageDB : response", response);
-    dispatch(getMessage(response));
+    // const response = RESP.GET_MESSAGE;
+    // console.log("getMessageDB : response", response);
+    // dispatch(getMessage(response));
   }
 }
 

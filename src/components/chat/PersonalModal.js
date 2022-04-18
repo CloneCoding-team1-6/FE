@@ -17,7 +17,7 @@ const [isOpen, setIsOpen] = React.useState(false);
 
   const LogOut = () => {
     console.log("로그아웃!")
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
     // dispatch(userActions.deleteUser());
     history.replace("/");
   }
@@ -67,7 +67,7 @@ const ModalBox = styled.div`
 
 const ButtonBox = styled.div`
   margin: auto;
-  width: fit-content;
+  width: 100%;
   height: fit-content;
 `
 

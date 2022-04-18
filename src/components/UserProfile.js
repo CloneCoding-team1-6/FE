@@ -1,6 +1,5 @@
 import React from "react";
 import { Text } from "../elements";
-import { userActions } from "../redux/modules/user";
 
 
 const UserProfile = () => {
