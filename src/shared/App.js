@@ -11,8 +11,6 @@ function App() {
       <BrowserRouter>
         <Route path="/" exact component={Login}></Route>
 <<<<<<< HEAD
-        <Route path="/register" component={Register}></Route>
-        <Route path="/channel" component={Channel}></Route>
         <Route path="/chat" exact component={Chat} />
         <Route path="/chat/:roomid" exact component={Chat} />
 =======
