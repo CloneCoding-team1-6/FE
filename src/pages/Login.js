@@ -14,12 +14,15 @@ import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import { idCheck}  from '../shared/common';
 import { HiOutlineSparkles } from "react-icons/hi";
+import {useDispatch } from 'react-redux'; 
+import { actionCreators as userActions } from '../redux/modules/User';
 
 // import { ButtonProps } from '@mui/material/Button';
 const Login = (props) => {
     const [id, setId]= React.useState('');
     const [pwd,setPwd]= React.useState('');
     const [warning,setWarning]=React.useState(false);
+    const dispatch=useDispatch();
     // let warning=false;
     // console.log();
     const login = () =>{
@@ -36,6 +39,7 @@ const Login = (props) => {
             window.alert('아이디와 비밀번호를 모두 입력해주세요!');
             return;
           }
+          dispatch(userActions.loginFB(id,pwd))
           
 
     }
