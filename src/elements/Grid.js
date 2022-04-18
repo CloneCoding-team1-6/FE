@@ -13,7 +13,9 @@ const Grid = (props) => {
     padding: padding,
     bg: bg,
     center: center,
+    right: right,
     border: border, 
+    lineheight: lineheight,
   }
 
   return (

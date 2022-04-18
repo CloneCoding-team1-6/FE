@@ -1,15 +1,9 @@
-import { borderRadius, flexbox, margin } from '@mui/system';
 import React from 'react';
-import Grid from '../elements/Grid';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Button from '@material-ui/core/Button';
-import { createTheme, ThemeProvider } from '@mui/material';
-import { TheaterComedy } from '@mui/icons-material';
-import { borders } from '@mui/system';
 import Google from '../assets/googlelogo.png';
 import Apple from '../assets/applelogo.jpg';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import { idCheck } from '../shared/common';
@@ -17,17 +11,14 @@ import { HiOutlineSparkles } from "react-icons/hi";
 import {useDispatch } from 'react-redux'; 
 import { actionCreators as userActions } from '../redux/modules/User';
 
-// import { ButtonProps } from '@mui/material/Button';
+
 const Login = (props) => {
     const [id, setId]= React.useState('');
     const [pwd,setPwd]= React.useState('');
     const [warning,setWarning]=React.useState(false);
     const dispatch=useDispatch();
-    // let warning=false;
-    // console.log();
     const login = () => {
 
-        console.log('button test');
         if (!idCheck(id)) {
 
             setWarning(true);
@@ -40,12 +31,7 @@ const Login = (props) => {
             return;
         }
         dispatch(userActions.loginFB(id, pwd))
-
-
     }
-    React.useEffect(() => {
-        console.log(warning);
-    }, [warning]);
 
 
     return (
@@ -72,23 +58,16 @@ const Login = (props) => {
                     </div>
                     <div>
                         {warning ? (<TextField style={warninginput}
-                            // ForwardRef={id}
                             onChange={(e) => {
                                 setId(e.target.value);
                                 console.log(e.target.value);
                             }}
-                        // hintText="Password"
-                        // floatingLabelText="Password"
                         >
 
                         </TextField>) : (<TextField label="Email" style={inputstyles}
-                            // ForwardRef={id}
                             onChange={(e) => {
                                 setId(e.target.value);
-                                console.log(e.target.value);
                             }}
-                        // hintText="Password"
-                        // floatingLabelText="Password"
                         >
 
                         </TextField>)}
@@ -96,10 +75,7 @@ const Login = (props) => {
                         <TextField label="Password" style={inputstyles}
                             onChange={(e) => {
                                 setPwd(e.target.value);
-                                console.log(e.target.value);
                             }}
-                            // hintText="Password"
-                            // floatingLabelText="Password"
                             type='password'
                         >
 

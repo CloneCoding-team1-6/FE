@@ -2,23 +2,26 @@ import React from "react";
 import Modal from "react-modal";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { Button, Grid2, Text } from "../../elements";
+import { Text } from "../../elements";
 import UserProfile from "../UserProfile";
 
-const PersonalModal = (props) => {
-const history = useHistory();
+import { actionCreators as userActions } from "../../redux/modules/User";
+import { useDispatch } from "react-redux";
 
-const [isOpen, setIsOpen] = React.useState(false);
+
+const PersonalModal = (props) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const Profile = () => {
-    console.log("프로필!")
     setIsOpen(true);
   }
 
   const LogOut = () => {
-    console.log("로그아웃!")
-    localStorage.removeItem("token");
-    // dispatch(userActions.deleteUser());
+    sessionStorage.removeItem("token");
+    dispatch(userActions.logoutFB());
     history.replace("/");
   }
 
@@ -50,7 +53,7 @@ const [isOpen, setIsOpen] = React.useState(false);
             }}}>
 
         <UserProfile/>
-      
+
       </Modal>
     
     

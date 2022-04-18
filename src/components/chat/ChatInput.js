@@ -7,11 +7,16 @@ import { useSelector } from "react-redux";
 import { Button, Grid } from "../../elements";
 import { HiPaperAirplane } from "react-icons/hi";
 
+import SockJsClient from 'react-stomp';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+
+let sock = new SockJS('http://54.180.96.119/chatting');
+let ws = Stomp.over(sock);
+
 
 const ChatInput = (props) => {
 
-  // let sock = new SockJS('');
-  // let ws = Stomp.over(sock);
 
   // 보내는 사람
   const sender = useSelector((state) => state)
@@ -36,15 +41,16 @@ const ChatInput = (props) => {
 
     const token = sessionStorage.getItem('token');
 
-    // ws
-    //   .send(
-    //     '/pub/api/chat/message',
-    //     headers: {
-    //     token: token,
-    //   },
-    //     JSON.stringify(message)
-    //   );
-    // )
+    ws
+      .send(
+        '/pub/api/chat/message',
+        {
+          headers: {
+            token: token,
+          }
+        },
+        JSON.stringify(message)
+      );
 
 setText("");
   };

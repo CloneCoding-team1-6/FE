@@ -5,8 +5,12 @@ import { GoChevronDown } from "react-icons/go";
 
 import ChatMessageBox from "./ChatMessageBox";
 import Modal from "react-modal";
+
 import { useDispatch, useSelector } from "react-redux";
 import { ChatCreators } from "../../redux/modules/Chat";
+import { actionCreators as userActions } from "../../redux/modules/User";
+
+
 
 const ChatRoom = () => {
   const dispatch = useDispatch();
@@ -16,21 +20,32 @@ const ChatRoom = () => {
     setIsOpen(true);    
   }
 
-  const user_list = useSelector((state) => state.user?.list);
-
   const userName = React.useRef(null);
+
+  const user_list = useSelector((state) => state.user?.user_list);
+  const roomName = useSelector((state) => state.chat?.room?.roomName);
+
+  console.log("ChatRoomBox : user_list", user_list);
+  
+  const email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
   const inviteUser = () => {
     console.log("ChatRoom : userName", userName.current.value);
     if(userName.current.value==="") {
-      window.alert("사용자 아이디를 적어주세요!")
+      userName.current.value = "";
+      return window.alert("사용자 아이디를 입력해주세요!")
+    }
+    if (!email.test(userName.current.value)) {
+      userName.current.value = "";
+      return window.alert("이메일 형식의 아이디를 입력해주세요.")
     }
     dispatch(ChatCreators.inviteUserDB(userName.current.value));
     setIsOpen(false);
   }
 
-  // React.useEffect(() => {
-  //   dispatch(userActions.getAllUserDB())
-  // }, [])
+  React.useEffect(() => {
+    dispatch(userActions.getAllUserDB())
+  }, [])
 
 
   return (
@@ -39,7 +54,7 @@ const ChatRoom = () => {
         
         <ChatRoomHeader>
           <Text bold margin="0 20px" size="1.2em">
-            # 일반 
+            # {roomName} 
             <GoChevronDown size="15px"/>
           </Text>
           <AddBtn onClick={openModal}>초대하기</AddBtn>
@@ -61,14 +76,14 @@ const ChatRoom = () => {
         
           <ModalBox>
             <Text bold margin="0" size="1.5em"># 사용자 추가</Text>
-            <ModalInput placeholder=" 예: user123 " ref={userName} />
+            <ModalInput placeholder=" 예: user@aaa.com " ref={userName} />
             <Grid2>
               <ModalBtn onClick={inviteUser}>추가</ModalBtn>
             </Grid2>
             <Text bold size="1.2em"># 사용자 목록</Text>
             {user_list?.map((user, idx) => {
               return ( 
-                <Text>- {user?.nickName} ({user?.username})</Text>
+                <Text key={user.id}>- {user?.nickname} ({user?.username})</Text>
               );
             })}
           </ModalBox>

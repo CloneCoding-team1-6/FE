@@ -3,13 +3,13 @@ import { produce } from "immer";
 import thunk from "redux-thunk";
 
 import Axios from "../../shared/request";
-import { RESP } from "../../shared/response";
-
+import { ChatAPI } from "../../shared/api";
 
 // 액션 
 const GET_CHAT_ROOM = "GET_CHAT_ROOM";
 const ADD_CHAT_ROOM = "ADD_CHAT_ROOM";
 const GET_MESSAGE = "GET_MESSAGE";
+const ENTER_ROOM = "ENTER_ROOM";
 
 // 초기값
 const initialState = {
@@ -22,6 +22,7 @@ const initialState = {
 //채팅방
 const getChatRoom = createAction(GET_CHAT_ROOM, (chat_list) => ({ chat_list }));
 const addChatRoom = createAction(ADD_CHAT_ROOM, (room) => ({ room }));
+const enterRoom = createAction(ENTER_ROOM, (room) => ({ room }) );
 // 채팅 메세지
 const getMessage = createAction(GET_MESSAGE, (message) => ({message}));
 const sendMessage = createAction('chat/WRITEMESSAGE');
@@ -32,17 +33,18 @@ const sendMessage = createAction('chat/WRITEMESSAGE');
 // 방 목록 가져오기
 const getChatRoomDB = () => {
   return async function (dispatch, getState, { history }) {
-    // Axios
-    // .get('/api/chat/rooms')
-    // .then((response) => {
-    //     console.log("getChatRoomDB : response", response);
-    // }).catch((error) => {
-    //     console.log("getChatRoomDB : ERROR", error.response)
-    // })
+    ChatAPI
+    .getChatRoom()
+    .then((response) => {
+        console.log("getChatRoomDB : response", response);
+        dispatch(getChatRoom(response.data));
+    }).catch((error) => {
+        console.log("getChatRoomDB : ERROR", error.response)
+    })
 
-    const response = RESP.GET_CHAT_ROOM;
-    console.log("getChatRoomDB : response", response);
-    dispatch(getChatRoom(response));
+    // const response = RESP.GET_CHAT_ROOM;
+    // console.log("getChatRoomDB : response", response);
+    // dispatch(getChatRoom(response));
   }
 }
 
@@ -52,21 +54,22 @@ const getChatRoomDB = () => {
 const addChatRoomDB = (roomName) => {
   return async function (dispatch, getState, { history }) {
     console.log("addChatRoomDB : roomName", roomName)
+    
     const room = {
-      roomId: 1,
-      roomName: roomName,
+      chatRoomName: roomName,
     }
-    Axios
-    .post('/api/chat/rooms', roomName)
+    // console.log(room);
+    ChatAPI.addChatRoom(room)
     .then((response) => {
-        console.log("addChatRoomDB : response", response);
-        dispatch(addChatRoom(roomName));    
+        console.log("addChatRoomDB : response", response.data);
+        const roomdata = {
+          roomName: roomName,
+          roomId: response.data.id
+        }
+        dispatch(getChatRoomDB());    
     }).catch((error) => {
         console.log("addChatRoomDB : ERROR", error.response)
     })
-
-    // 서버 연결시 삭제
-    // dispatch(addChatRoom(room));
   }
 }
 
@@ -74,18 +77,20 @@ const addChatRoomDB = (roomName) => {
 // 방 입장하기
 const enterRoomDB = (roomId) => {
   return async function (dispatch, getState, { history }) {
-    console.log("enterRoomDB : roomId", roomId);
+    // console.log("enterRoomDB : roomId", roomId);
 
-    Axios
-    .get(`/api/chat/${roomId}`)
+    ChatAPI.enterRoom(roomId)
     .then((response) => {
-      console.log("enterRoomDB : response", response);
-      // roomId / 채팅방 이름
-      dispatch();
+      // console.log("enterRoomDB : response", response);
+      const room_data = {
+        roomId: response.data.id,
+        roomName: response.data.chatRoomName,
+      }
+      dispatch(enterRoom(room_data))
+      history.push(`/chat/`+response.data.id); 
     }).catch((error) => {
       console.log("enterRoomDB : error.response", error.response);
     })
-
   }
 }
 
@@ -93,12 +98,11 @@ const enterRoomDB = (roomId) => {
 // 유저 초대하기
 const inviteUserDB = (username) => {
   return async function (dispatch, getState, { history }) {
-    console.log("addUserDB : username", username);
+    console.log("inviteUserDB : username", username);
 
-    Axios
-    .post('/api/chat/invite', username)
+    ChatAPI.inviteUser(username)
     .then((response) => {
-      console.log(response);
+      console.log("inviteUserDB : response", response);
     }).catch((error) => {
       console.log(error.response);
     })
@@ -111,20 +115,22 @@ const inviteUserDB = (username) => {
 const getMessageDB = (roomId) => {
   return async function (dispatch, getState, { history }) {
 
-    Axios
-    .get(`/api/chat/rooms/${roomId}/message`)
-    .then((response) => {
-      console.log("getMessageDB : response", response);
-      dispatch(getMessage(response.data));
-    }).catch((error) => {
-      console.log("getMessageDB : ERROR", error);
-    })
+    // ChatAPI.getMessage(roomId)
+    // .then((response) => {
+    //   console.log("getMessageDB : response", response);
+    //   dispatch(getMessage(response.data)); 
+    // }).catch((error) => {
+    //   console.log("getMessageDB : ERROR", error);
+    // })
 
     // const response = RESP.GET_MESSAGE;
     // console.log("getMessageDB : response", response);
     // dispatch(getMessage(response));
   }
 }
+
+
+
 
 
 // 리듀서
@@ -146,6 +152,10 @@ export default handleActions(
     }),
     [sendMessage]: (state, action) => produce(state, (draft) => {
       draft.sendMessage = action.payload;
+    }),
+    [ENTER_ROOM]: (state, action) => produce(state, (draft) => {
+      // console.log("ENTER_ROOM : room", action.payload.room);
+      draft.room = action.payload.room;
     })
   },
   initialState
@@ -162,11 +172,11 @@ const ChatCreators = {
   getMessage,
   getMessageDB,
 
-  sendMessage,
-
-  inviteUserDB,
-
+  enterRoom,
   enterRoomDB,
+
+  sendMessage,
+  inviteUserDB,
 }
 
 export { ChatCreators };

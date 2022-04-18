@@ -8,12 +8,13 @@ import { BiTime } from "react-icons/bi";
 import Modal from "react-modal";
 
 import PersonalModal from "./PersonalModal";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Header = () => {
+    const dispatch = useDispatch();
 
     const [isOpen, setIsOpen] = React.useState(false);
-
 
     return (
         <React.Fragment>

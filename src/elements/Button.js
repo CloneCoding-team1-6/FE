@@ -206,16 +206,16 @@ const Circle = styled.div`
   ${(props) => props.toggle && `transform: translate(18px, 0); transition: all 0.3s ease-in-out;`}
 `;
 
-const ModalBtn = styled.button`
-  width: 80px;
-  height: 35px;
+// const ModalBtn = styled.button`
+//   width: 80px;
+//   height: 35px;
 
-  color: #4d4c4d;
-  border: none;
-  border-radius: 5px;
+//   color: #4d4c4d;
+//   border: none;
+//   border-radius: 5px;
 
-  background: #DDDDDD;
-`
+//   background: #DDDDDD;
+// `
 
 
 export default Button;
