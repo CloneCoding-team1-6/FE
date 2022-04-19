@@ -157,7 +157,7 @@ export default handleActions(
       // draft.message.push(action.payload);
     }),
     [SEND_MESSAGE]: (state, action) => produce(state, (draft) => {
-      console.log("SEND_MESSAGE : message", message);
+      console.log("SEND_MESSAGE : message", action.payload.message);
       draft.message = action.payload.message;
     }),
   },

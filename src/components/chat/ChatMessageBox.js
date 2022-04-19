@@ -36,18 +36,18 @@ const ChattingBox = () => {
       ws.connect({
         token: token
       }, () => {
-          ws.subscribe(
-            `/sub/api/chat/rooms/${roomId.roomid}`,
-            (response) => {
-              // console.log("받은 메세지", response);
-              const newMessage = JSON.parse(response.body);
-              console.log("받은 메세지", newMessage);
-              // dispatch(ChatCreators.getMessage(newMessage));
-            },
-            {
-                token: token 
-            }
-          );
+          // ws.subscribe(
+          //   `/sub/api/chat/rooms/${roomId.roomid}`,
+          //   (response) => {
+          //     // console.log("받은 메세지", response);
+          //     const newMessage = JSON.parse(response.body);
+          //     console.log("받은 메세지", newMessage);
+          //     // dispatch(ChatCreators.getMessage(newMessage));
+          //   },
+          //   {
+          //       token: token 
+          //   }
+          // );
         }
       );
     } catch (error) {
