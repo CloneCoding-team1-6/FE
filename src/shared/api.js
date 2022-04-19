@@ -19,9 +19,9 @@ export const apis = {
 
   idcheck: (email) => api.post('api/idCheck', { username: email }),
 
-  nicknamecheck: (nickname) => api.post('api/nickName', { nickName: nickname }),
+  nicknamecheck: (nickName) => api.post('api/nickName', { nickName: nickName }),
 
-  islogin: () => api.get("/api/islogin", {
+  islogin: () => api.get("/api/isLogin", {
     headers: {
       "content-type": "applicaton/json;charset=UTF-8",
       "accept": "application/json",

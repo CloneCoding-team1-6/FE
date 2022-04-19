@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import { idCheck}  from '../shared/common';
 import {useDispatch } from 'react-redux'; 
-import { actionCreators as userActions } from '../redux/modules/User';
+import { actionCreators as userActions } from '../redux/modules/user';
 
 // import { ButtonProps } from '@mui/material/Button';
 const Register = (props) => {
@@ -20,6 +20,8 @@ const Register = (props) => {
     const [warning,setWarning]=React.useState(false);
     // let warning=false;
     // console.log();
+    
+
     const signup = () =>{
       
         if (id === '' | nickname === '' | pwd === '' | pwdcheck === '') {
@@ -47,6 +49,7 @@ const Register = (props) => {
       apis.idcheck(id).then((res)=>{
         console.log('emailcheck2');
         console.log(res);
+        //client 메시지 처리 필요
       })
       .catch((error)=>{
         console.log('emailcheck error');
@@ -56,10 +59,19 @@ const Register = (props) => {
     }
     const NicknameCheck =()=>{
       console.log("nickname check");
+      apis.nicknamecheck(nickname)
+      .then((res)=>{
+        console.log('nickname check success');
+        console.log('res');
+        //client 메시지 처리 필요
+      })
+      .catch((error)=>{
+        console.log('nicknamecheck error');
+        console.log(error);
+      })
       
     }
     React.useEffect(()=>{
-      
       return()=>{
         // removeEventListener();
       };
@@ -115,26 +127,24 @@ const Register = (props) => {
                 // ForwardRef={id}
                 onChange={(e) => {
                     setPwd(e.target.value);
-                    console.log(e.target.value);
                   }}
                     // hintText="Password"
                     // floatingLabelText="Password"
-                    >
+                    type='password'>
                         
                 </TextField>
                 
                 <TextField  label="Password Check" style={inputstyles}
                 onChange={(e) => {
-                    SetPwdcheck(e.target.value);
-                    console.log(e.target.value);
-                    console.log(pwd===pwdcheck);
-                    if(pwd===pwdcheck)
+                  SetPwdcheck(e.target.value);
+                    if(pwd===e.target.value)
                     {
                       setWarning(false);
                     }
                     else{
                       setWarning(true);
                     }
+                    
                   }}
                     // hintText="Password"
                     // floatingLabelText="Password"
