@@ -10,33 +10,39 @@ import { ChatCreators } from "../../redux/modules/Chat";
 // import Stomp from 'react-stomp';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
+// import { client } from "../../redux/modules/User";
 
 
-  // 소켓 통신
-  let sock = new SockJS('http://54.180.96.119/chatting');
-  let ws = Stomp.over(sock);
+const token = sessionStorage.getItem("token");
+
+
+
+
 
 const ChattingBox = () => {
-  const dispatch = useDispatch();
-  const token = sessionStorage.getItem("token");
 
+  let sock = new SockJS('http://121.139.34.35:8080/ws-stomp');
+  let ws = Stomp.over(sock);
+
+  const dispatch = useDispatch();
   // 방 번호
   const roomId = useParams();
-  const roomNum = parseInt(roomId);
-  // 렌더링시 구독 
-  // 페이지 이동시 구독 해제
+  
+  let headers = {Authorization: sessionStorage.getItem(token)}
 
-
-  // let headers = {Authorization: sessionStorage.getItem()}
   // 연결하고 구독하기
   function ConnectSub(token) {
     try {
-      ws.connect({token: token}, {token: token}, async () => {
+      ws.connect({
+        token: token
+      }, () => {
           ws.subscribe(
-            `sub/api/chat/rooms/${roomNum}`,
-            (data) => {
-              const newMessage = JSON.parse(data.body);
-              dispatch(ChatCreators.getMessageDB(newMessage));
+            `/sub/api/chat/rooms/${roomId.roomid}`,
+            (response) => {
+              // console.log("받은 메세지", response);
+              const newMessage = JSON.parse(response.body);
+              console.log("받은 메세지", newMessage);
+              // dispatch(ChatCreators.getMessage(newMessage));
             },
             {
                 token: token 
@@ -49,13 +55,11 @@ const ChattingBox = () => {
     }
   }
 
-  // 연결 및 구독 해제
   function DisConnectUnsub() {
-    // console.log(token)
     try {
       ws.disconnect( {
-        connectHeaders: {
-        "token": token,
+        Headers: {
+        Authorization: `${token}`,
       }},
         () => {
           ws.unsubscribe('sub-0');
@@ -67,22 +71,6 @@ const ChattingBox = () => {
     }
   }
 
-  // 웹소켓이 연결될 때 까지 실행
-  function waitForConnection(ws, callback) {
-    setTimeout(
-      function () {
-        // 연결되었을 때 콜백함수 실행
-        if (ws.ws.readyState === 1) {
-          callback();
-          // 연결이 안 되었으면 재호출
-        } else {
-          waitForConnection(ws, callback);
-        }
-      },
-      1 // 밀리초 간격으로 실행
-    );
-  }
-
   React.useEffect(() => {
     ConnectSub(token);
     return () => {
@@ -91,15 +79,16 @@ const ChattingBox = () => {
   }, []);
 
   // 이전 메세지 가져오기
+  const message = useSelector((state) => state.chat?.message?.content)
   React.useEffect(() => {
-    // dispatch(ChatCreators.getMessageDB());
-  }, [])
+    dispatch(ChatCreators.getMessageDB(roomId.roomid));
+  }, [roomId.roomid])
 
   return (
     <Wrapper>
       <MessageWrapper>
 
-        {/* {message?.map((message, idx) => {
+        {message?.map((message, idx) => {
           return (
             <ChatMessage 
               key={idx} 
@@ -107,7 +96,7 @@ const ChattingBox = () => {
               nickName={message?.nickName} 
               createdAt={message?.createdAt} />
           );
-        })} */}
+        })}
 
 
       </MessageWrapper>
