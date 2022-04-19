@@ -1,12 +1,7 @@
-import { borderRadius, flexbox, margin } from '@mui/system';
 import React from 'react';
-import Grid from '../elements/Grid';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Button  from '@material-ui/core/Button';
-import { createTheme, ThemeProvider } from '@mui/material';
-import { TheaterComedy } from '@mui/icons-material';
-import { borders } from '@mui/system';
 import { apis } from '../shared/api';
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
@@ -132,8 +127,8 @@ const Register = (props) => {
                 onChange={(e) => {
                     SetPwdcheck(e.target.value);
                     console.log(e.target.value);
-                    console.log(pwd==pwdcheck);
-                    if(pwd==pwdcheck)
+                    console.log(pwd===pwdcheck);
+                    if(pwd===pwdcheck)
                     {
                       setWarning(false);
                     }

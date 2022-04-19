@@ -13,7 +13,9 @@ const Grid = (props) => {
     padding: padding,
     bg: bg,
     center: center,
+    right: right,
     border: border, 
+    lineheight: lineheight,
   }
 
   return (
@@ -34,7 +36,7 @@ Grid.defaultProps = {
   bg: false,
   right: false,
   lineheight: "",
-  maxWidth: '900px',
+  maxWidth: "",
   center: false,
   border: false,
   _onClick: () => {},

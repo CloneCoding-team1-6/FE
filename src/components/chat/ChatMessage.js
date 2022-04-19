@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Grid, Text } from "../../elements";
+import { Grid2, Text } from "../../elements";
 
 
 
@@ -14,18 +14,18 @@ const ChatMessage = (props) => {
     <React.Fragment>
       <OuterBox>
         <InnerBox>
-          <Grid is_flex width="70vw">
+          <Grid2 is_flex width="70vw" height="fit-content">
             <ImageBox />
             <MessageBox>
-              <Grid is_flex width="fit-content" height="30px">
+              <Grid2 is_flex width="fit-content" height="30px">
                 <Text bold margin="0">{nickName}</Text>
                 <Text margin="0 10px" size="0.8em">{createdAt}</Text>
-              </Grid>
-              <Grid width="fit-content" margin="0">
+              </Grid2>
+              <Grid2 width="fit-content" margin="0">
                 <Text margin="0 0">{message}</Text>
-              </Grid>
+              </Grid2>
             </MessageBox>
-          </Grid>
+          </Grid2>
         </InnerBox>
       </OuterBox>
     </React.Fragment>

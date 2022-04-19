@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router';
 // import { useHistory } from 'react-router-dom';
 
-import { Grid, Text, Image} from '../elements';
 // import { getCookie, deleteCookie } from '../shared/Cookie';
 
 const Header = (props) => {
@@ -16,7 +15,7 @@ const Header = (props) => {
         <Header1>
           <div style={{flex:1, height:"50px", alignItems:'center', backgroundColor:'white'}}></div>
           <div style={{flex:1, display:"flex" ,alignItems:'center',justifyContent: "center", backgroundColor:'whtie'}}>
-            <img style ={{alignItems:"center"}} src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg" height="34"/>
+          <img style ={{alignItems:"center"}} src="https://a.slack-edge.com/bv1-9/slack_logo-ebd02d1.svg" height="34"/>
           </div>
           
           <div style={{flex:1, display:'flex', justifyContent:'flex-end', alignItems:'center', backgroundColor:'white'}}>
@@ -39,22 +38,22 @@ const Header = (props) => {
 
 Header.defaultProps = {};
 
-const Logo = styled.a`
-  text-decoration: none;
-  img {
-    width: 15%;
-  }
-  div {
-    background-image: url("https://user-images.githubusercontent.com/91959791/163001319-d6e449d7-8443-4106-8128-902e93a889f4.png");
-    background-size: cover;
-    background-position: center;
-    width: 150px;
-    height: 150px;
-    margin: -20px auto 0;
-    padding: 0 30px 0px 30px;
-    // margin: -20px 0 0 0;
-  }
-`;
+// const Logo = styled.a`
+//   text-decoration: none;
+//   img {
+//     width: 15%;
+//   }
+//   div {
+//     background-image: url("https://user-images.githubusercontent.com/91959791/163001319-d6e449d7-8443-4106-8128-902e93a889f4.png");
+//     background-size: cover;
+//     background-position: center;
+//     width: 150px;
+//     height: 150px;
+//     margin: -20px auto 0;
+//     padding: 0 30px 0px 30px;
+//     // margin: -20px 0 0 0;
+//   }
+// `;
 const Header1=styled.div`
     padding: 48px 0 40px;
     width: 100%;
@@ -66,7 +65,4 @@ const Header1=styled.div`
     background-color:white;
 `;
 
-const Childheader=styled.div`
-
-`;
 export default Header;

@@ -1,11 +1,12 @@
 import React from "react";
+// import { useParams } from "react-router-dom";
 
 import styled from "styled-components";
-import { ChatRoomList, ChatRoomBox, ChatHeader } from "../components";
+import { ChatRoomList, ChatHeader } from "../components";
 import { Grid2 } from "../elements";
 
 
-const Chat = () => {
+const ChatHome = () => {
 
 // const params = useParams();
 // console.log("CHAT : PARAMS", params);
@@ -20,7 +21,6 @@ const Chat = () => {
                         <Grid2 width="260">
                             <ChatRoomList />
                         </Grid2>
-                        <ChatRoomBox />
                     </Grid2>
                 </Grid2>
             </Box>
@@ -36,4 +36,4 @@ const Box = styled.div`
 
 
 
-export default Chat;
+export default ChatHome;

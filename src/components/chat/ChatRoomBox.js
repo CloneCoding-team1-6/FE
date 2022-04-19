@@ -1,12 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import { Text, Grid } from "../../elements";
+import { Text, Grid2 } from "../../elements";
 import { GoChevronDown } from "react-icons/go";
 
 import ChatMessageBox from "./ChatMessageBox";
 import Modal from "react-modal";
-import { useDispatch } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import { ChatCreators } from "../../redux/modules/Chat";
+import { actionCreators as userActions } from "../../redux/modules/User";
+
 
 
 const ChatRoom = () => {
@@ -18,14 +21,32 @@ const ChatRoom = () => {
   }
 
   const userName = React.useRef(null);
+
+  const user_list = useSelector((state) => state.user?.user_list);
+  const roomName = useSelector((state) => state.chat?.room?.roomName);
+
+  console.log("ChatRoomBox : user_list", user_list);
+  
+  const email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
   const inviteUser = () => {
     console.log("ChatRoom : userName", userName.current.value);
     if(userName.current.value==="") {
-      window.alert("사용자 아이디를 적어주세요!")
+      userName.current.value = "";
+      return window.alert("사용자 아이디를 입력해주세요!")
+    }
+    if (!email.test(userName.current.value)) {
+      userName.current.value = "";
+      return window.alert("이메일 형식의 아이디를 입력해주세요.")
     }
     dispatch(ChatCreators.inviteUserDB(userName.current.value));
     setIsOpen(false);
   }
+
+  React.useEffect(() => {
+    dispatch(userActions.getAllUserDB())
+  }, [])
+
 
   return (
     <React.Fragment>
@@ -33,7 +54,7 @@ const ChatRoom = () => {
         
         <ChatRoomHeader>
           <Text bold margin="0 20px" size="1.2em">
-            # 일반 
+            # {roomName} 
             <GoChevronDown size="15px"/>
           </Text>
           <AddBtn onClick={openModal}>초대하기</AddBtn>
@@ -49,16 +70,22 @@ const ChatRoom = () => {
             overlay: {
               position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.75)'
             },
-            content: { position: 'absolute', margin: 'auto', width: 'fit-content', height: '165px', background: '#fff',
+            content: { position: 'absolute', margin: 'auto', width: 'fit-content', height: 'fit-content', background: '#fff',
               overflow: 'auto', borderRadius: '10px', WebkitOverflowScrolling: 'touch', outline: 'none',
             }}}>
         
           <ModalBox>
             <Text bold margin="0" size="1.5em"># 사용자 추가</Text>
-            <ModalInput placeholder=" 예: user123 " ref={userName} />
-            <Grid>
+            <ModalInput placeholder=" 예: user@aaa.com " ref={userName} />
+            <Grid2>
               <ModalBtn onClick={inviteUser}>추가</ModalBtn>
-            </Grid>
+            </Grid2>
+            <Text bold size="1.2em"># 사용자 목록</Text>
+            {user_list?.map((user, idx) => {
+              return ( 
+                <Text key={user.id}>- {user?.nickname} ({user?.username})</Text>
+              );
+            })}
           </ModalBox>
       
       </Modal>
@@ -88,6 +115,7 @@ const ChatRoomHeader = styled.div`
 `
 const ModalBox = styled.div`
     position: relative;
+    margin-bottom : 40px;
 
     padding: 10px;
     width: 470px;
@@ -142,7 +170,7 @@ const ModalBtn = styled.button`
 
     position: absolute;
     right: 10px;
-    bottom: -20px;
+    bottom: -30px;
 
     width: 80px;
     height: 35px;

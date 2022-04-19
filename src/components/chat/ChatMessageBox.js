@@ -7,111 +7,107 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { ChatCreators } from "../../redux/modules/Chat";
 
-
-import SockJsClient from 'react-stomp';
-
+// import Stomp from 'react-stomp';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
+
+  // 소켓 통신
+  let sock = new SockJS('http://54.180.96.119/chatting');
+  let ws = Stomp.over(sock);
+
 const ChattingBox = () => {
-
-  // 토큰
-  const token = sessionStorage.getItem('token');
   const dispatch = useDispatch();
-
-  // 이전 메세지
-  const message = useSelector((state) => state.chat?.message);
-  console.log("ChattingBox : message", message)
-
-  // 보내는 사람
-  const userName = useSelector((state) => state)
-  console.log(userName);
-
+  const token = sessionStorage.getItem("token");
 
   // 방 번호
   const roomId = useParams();
-
-  // 소켓 통신
-  // let sock = new SockJS(' ');
-  // let ws = Stomp.over(sock);
-
+  const roomNum = parseInt(roomId);
   // 렌더링시 구독 
   // 페이지 이동시 구독 해제
-  React.useEffect(() => {
-    ConnectSub();
-    return () => {
-      DisConnectUnsub();
-    };
-  }, [roomId]);
 
+
+  // let headers = {Authorization: sessionStorage.getItem()}
   // 연결하고 구독하기
-  function ConnectSub() {
-    // try {
-    //   ws.connect('api/chat',
-    //    {
-    //     token: token,
-    //   },
-    //     () => {
-    //       ws.subscribe(
-    //         `sub/chat/`,
-    //         (data) => {
-    //           const newMessage = JSON.parse(data.body);
-    //           dispatch(ChatRoomCreators.getMessageDB(newMessage));
-    //         },
-    //         { token: token }
-    //       );
-    //     }
-    //   );
-    // } catch (error) {
-    //   console.log(error);
-    // }
+  function ConnectSub(token) {
+    try {
+      ws.connect({token: token}, {token: token}, async () => {
+          ws.subscribe(
+            `sub/api/chat/rooms/${roomNum}`,
+            (data) => {
+              const newMessage = JSON.parse(data.body);
+              dispatch(ChatCreators.getMessageDB(newMessage));
+            },
+            {
+                token: token 
+            }
+          );
+        }
+      );
+    } catch (error) {
+      console.log("fdfdfdfdf", error.response);
+    }
   }
 
   // 연결 및 구독 해제
   function DisConnectUnsub() {
-    // try {
-    //   ws.disconnect(
-    //     () => {
-    //       ws.unsubscribe('sub-0');
-    //     },
-    //     headers : { token: token }
-    //   );
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    // console.log(token)
+    try {
+      ws.disconnect( {
+        connectHeaders: {
+        "token": token,
+      }},
+        () => {
+          ws.unsubscribe('sub-0');
+        },
+        { token: token }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // 웹소켓이 연결될 때 까지 실행
   function waitForConnection(ws, callback) {
-    // setTimeout(
-    //   function () {
-
-    //     if (ws.ws.readyState === 1) {
-    //       // 연결되었을 때 콜백함수 실행
-    //       callback();
-    //     } else {
-    //       // 연결이 안 되었으면 재호출
-    //       waitForConnection(ws, callback);
-    //     }
-    //   },
-    //   1 // 밀리초 간격으로 실행
-    // );
+    setTimeout(
+      function () {
+        // 연결되었을 때 콜백함수 실행
+        if (ws.ws.readyState === 1) {
+          callback();
+          // 연결이 안 되었으면 재호출
+        } else {
+          waitForConnection(ws, callback);
+        }
+      },
+      1 // 밀리초 간격으로 실행
+    );
   }
+
+  React.useEffect(() => {
+    ConnectSub(token);
+    return () => {
+      DisConnectUnsub();
+    };
+  }, []);
 
   // 이전 메세지 가져오기
   React.useEffect(() => {
-    dispatch(ChatCreators.getMessageDB());
+    // dispatch(ChatCreators.getMessageDB());
   }, [])
 
   return (
     <Wrapper>
       <MessageWrapper>
 
-        {message?.map((message, idx) => {
+        {/* {message?.map((message, idx) => {
           return (
-            <ChatMessage key={idx} message={message?.message} nickName={message?.nickName} createdAt={message.createdAt} />
+            <ChatMessage 
+              key={idx} 
+              message={message?.message} 
+              nickName={message?.nickName} 
+              createdAt={message?.createdAt} />
           );
-        })}
+        })} */}
 
 
       </MessageWrapper>
@@ -126,8 +122,6 @@ const Wrapper = styled.div`
   display: block;
   width: 100%;
   height: 100vh;
-
-
 `
 const MessageWrapper = styled.div`
   width: 100%;

@@ -5,12 +5,11 @@ const Axios = axios.create({
 });
 
 
-if (sessionStorage.getItem("token")) {
+if (localStorage.getItem("token")) {
     Axios.defaults.headers.common["Authorization"] =
-        sessionStorage.getItem("token");
+        localStorage.getItem("token");
+        console.log(localStorage.getItem("token"))
 }
-
-
 
 
 
