@@ -2,88 +2,75 @@ import React from "react";
 import styled from "styled-components";
 
 import { useHistory, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { ChatCreators } from "../../redux/modules/Chat";
+import { useSelector } from "react-redux";
 
 import { Button, Grid } from "../../elements";
 import { HiPaperAirplane } from "react-icons/hi";
 
-import SockJsClient from 'react-stomp';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
 
-
-let sock = new SockJS('http://121.139.34.35:8080/ws-stomp');
-let ws = Stomp.over(sock);
-
 const ChatInput = (props) => {
+  const token = sessionStorage.getItem('token');
   const history = useHistory();
-  const dispatch = useDispatch();
+
 
   // 보내는 사람
   const sender = useSelector((state) => state.user?.user?.username)
   // 보낼 메세지
   const [text, setText] = React.useState('');
-  // 방
+  // 방 번호
   const roomId = useParams();  
-  const imgUrl = useSelector((state) => state.user?.user?.imgUrl);
 
+  // 소켓 통신
+  let sock = new SockJS('http://121.139.34.35:8080/ws-stomp');
+  let ws = Stomp.over(sock);
 
-  const token = sessionStorage.getItem('token');
-
-
+  // 메세지 보내기
   const onSend = async () => {
   try {
     if (!token) {
       alert('문제가 발생했습니다. 다시 로그인 해주세요.');
       history.replace('/');
     }
-    // send할 데이터
     const message = {
       roomId: roomId.roomid,
       message: text.target.value,
       sender: sender,
       type: 'TALK',
     }
-    // 빈문자열이면 리턴
     if (text === '') {
       return;
     }
-    // 로딩 중
     waitForConnection(ws, function () {
       ws.send(
         '/pub/api/chat/message',
         { token: token },
         JSON.stringify(message)
       );
-      // console.log("dfdfdf", ws.ws);
       text.target.value="";
     });
   } catch (error) {
-    console.log(error);
-    console.log(ws.ws.readyState);
+    // console.log(error.response);
   }
 }
-
-
 
 // 웹소켓이 연결될 때 까지 실행
   function waitForConnection(ws, callback) {
     setTimeout(
       function () {
-        // 연결되었을 때 콜백함수 실행
         if (ws.ws.readyState === 1) {
           callback();
-          // 연결이 안 되었으면 재호출
         } else {
           waitForConnection(ws, callback);
         }
       },
-      1 // 밀리초 간격으로 실행
+      1
     );
   }
 
+  // 엔터키 이벤트
   const enterEvent = (e) => {
     if(e.key === 'Enter') {
       onSend();
@@ -98,10 +85,9 @@ const ChatInput = (props) => {
         <Box>
           <Box2 bg="#fafafa" br="6px 6px 0 0"/>
             <InputBox onChange={setText} onKeyPress={enterEvent}/>
+
           <Button sendBtn _onClick={onSend} value={text}>
-
             <HiPaperAirplane color="#aaa" size="18px" transform="rotate(90)"/>
-
           </Button>
 
         </Box>
@@ -118,7 +104,7 @@ const InputBox = styled.textarea`
 
     padding: 10px;
 
-    width: 94%;
+    width: 98%;
     height: 60px;
 
     resize: none;

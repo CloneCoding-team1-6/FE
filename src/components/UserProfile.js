@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import moment from "moment";
+
+import { apis } from "../shared/api";
+import { actionCreators as userActions } from "../redux/modules/User";
+
 import { Image } from "../elements";
 import Button from '@material-ui/core/Button';
 import {HiDotsHorizontal} from "react-icons/hi";
 import {BsEmojiSmile, BsPencil} from "react-icons/bs"
 import { FiX } from "react-icons/fi";
 
-
-import { apis } from "../shared/api";
-
-import moment from "moment";
-import { useDispatch } from "react-redux";
-import { actionCreators as userActions } from "../redux/modules/User";
 
 
 const UserProfile = (props) => {
@@ -27,28 +27,21 @@ const UserProfile = (props) => {
     const [curdate,setCurdate]=React.useState(`${date} ${nowTime}`);
     const fileInput = React.useRef();
     
+    // 로그인 체크
     React.useEffect(()=>{
         apis.islogin()
         .then((res)=>{
-            // console.log(res.data);
             setId(res.data['username']);
             setNickname(res.data['nickname']);
             setImagesrc(res.data['imgUrl']);
-            // console.log(imagesrc);
         })
         .catch((error)=>{
             console.log(error);
         })
-        
-        return () => {
-            // removeEventListener();
-        };
-        console.log('api test');
     }, []);
     
+    // 이미지 업로드
     const handleimage=(e)=>{
-        console.log("작성처음으로 넘어오겠지요");
-        const reader = new FileReader();
         const file = fileInput.current.files[0];
         const formData = new FormData();
         formData.append('file',file);
@@ -58,20 +51,16 @@ const UserProfile = (props) => {
         .then((res)=>{
             console.log("UserProfile : handleimage", res);
             setImagesrc(res.data);
-            dispatch(userActions.getImage(res.data))
-
+            dispatch(userActions.loginCheckFB())
         })
         .catch((error)=>{
-            console.log(error);
-
+            console.log(error.response);
         })
-
     }
     
 
     return (
         <React.Fragment>
-        {/* <h1 style={{margin:'0px'}}>프로필</h1> */}
             <ProfilePage>
                 <FiX className="icon" onClick={() => {
                     setIsOpen(false)
@@ -164,9 +153,6 @@ const UserProfile = (props) => {
     );
 }
 
-
-export default UserProfile;
-
 const ProfilePage = styled.div`
     width:400px;
     height: 675px;    
@@ -175,6 +161,7 @@ const ProfilePage = styled.div`
     align-items: center;
 
 `;
-const Input = styled('input')({
-    display: 'none',
-  });
+
+
+export default UserProfile;
+

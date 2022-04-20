@@ -13,12 +13,11 @@ import { actionCreators as userActions } from "../../redux/modules/User";
 
 
 const Header = () => {
+  
     const dispatch = useDispatch();
     const [ModalisOpen, setModalIsOpen] = React.useState(false);
 
     const imgUrl = useSelector((state) => state.user?.user?.imgUrl);
-
-    console.log("HEADER : IMGURL ", imgUrl);
 
     React.useEffect(() => {
       dispatch(userActions.loginCheckFB());
@@ -120,8 +119,10 @@ const ImageBox = styled.div`
 
   border-radius: 4px;
 
-  background-image: url('${(props)=>props.src}');
+  background-image:  url('${(props)=>props.src? props.src: 'https://ca.slack-edge.com/T01L2TNGW3T-U02SDJ4A1JN-g7cf4a9a2c7b-512' }');
   background-size: cover;
+  backgroud-repeat: no-repeat;
+  backgroud-position: center center;
 `
 
 

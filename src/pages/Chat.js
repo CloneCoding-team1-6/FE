@@ -1,14 +1,12 @@
 import React from "react";
-
 import styled from "styled-components";
+
 import { ChatRoomList, ChatRoomBox, ChatHeader } from "../components";
+
 import { Grid2 } from "../elements";
 
 
 const Chat = () => {
-
-// const params = useParams();
-// console.log("CHAT : PARAMS", params);
 
 
     return (

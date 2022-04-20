@@ -1,17 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+
 import { Grid2, Text } from "../../elements";
-import { useSelector } from "react-redux";
-
-
-
 
 
 const ChatMessage = (props) => {
 
   const {message, nickName, createdAt, imgUrl} = props;
-
-
 
   return (
     <React.Fragment>
@@ -52,8 +47,10 @@ const ImageBox = styled.div`
   width: 40px;
   height: 40px;
 
-  background-image: url('${(props)=>props.src}');
+  background-image:  url('${(props)=>props.src? props.src: 'https://ca.slack-edge.com/T01L2TNGW3T-U02SDJ4A1JN-g7cf4a9a2c7b-512' }');
   background-size: cover;
+  backgroud-repeat: no-repeat;
+  backgroud-position: center center;
   border-radius: 4px;
 `
 

@@ -1,29 +1,24 @@
 import React from "react";
-import styled from "styled-components";
 import Modal from "react-modal";
+import styled from "styled-components";
 
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ChatCreators } from "../../redux/modules/Chat";
+import { ChatActions } from "../../redux/modules/Chat";
 
-import { Grid2, Text, Button } from "../../elements";
 import { GoChevronDown, GoTriangleDown } from "react-icons/go";
+import { Grid2, Text, Button } from "../../elements";
 import { FiEdit, FiX } from "react-icons/fi";
 
 
 const ChatList = (props) => {
   const dispatch = useDispatch();
 
-  // 모달 여닫기
-  const [isOpen, setIsOpen] = React.useState(false);
-  // console.log("ChatList : Modal isOpen", isOpen);
-
-  const roomId = useParams();
   const ChatRoom = useSelector((state) => state.chat?.list);
   const roomNameRef = React.useRef(null);
 
+  // 모달 여닫기
+  const [isOpen, setIsOpen] = React.useState(false);
 
-  console.log("ChatList : roomId", roomId)
   // 채팅방 생성
   const roomCreate = () => {
     const roomName = roomNameRef.current.value;
@@ -31,17 +26,19 @@ const ChatList = (props) => {
       window.alert("채널 이름을 입력해주세요!")
       return;
     }
-    // if()
-    console.log("AddChatModal : roomCreate : roomName", roomName);
-    dispatch(ChatCreators.addChatRoomDB(roomName));
+    // console.log("AddChatModal : roomCreate : roomName", roomName);
+    dispatch(ChatActions.addChatRoomDB(roomName));
     setIsOpen(false);
   }
 
-
+  // 채팅방 입장 
+  const enterRoom = (roomId) => {
+    dispatch(ChatActions.enterRoomDB(roomId))
+  }
 
   // 채팅방 목록 가져오기
   React.useEffect(() => {
-    dispatch(ChatCreators.getChatRoomDB());
+    dispatch(ChatActions.getChatRoomDB());
   }, [dispatch])
 
 
@@ -66,8 +63,7 @@ const ChatList = (props) => {
 
         {ChatRoom?.map((room) => {
           return (
-            <ListElement key={room.id} height="30px" onClick={() => { 
-              dispatch(ChatCreators.enterRoomDB(room.id) )}}>
+            <ListElement key={room.id} height="30px" onClick={() => {enterRoom(room.id)}}>
               <Grid2 margin="0 20px">
                 <Text margin="0 15px" size="1em" color="#A6A6BC">#　{room.chatRoomName}</Text>
               </Grid2>

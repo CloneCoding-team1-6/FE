@@ -1,16 +1,11 @@
 import React from "react";
-// import { useParams } from "react-router-dom";
-
 import styled from "styled-components";
+
 import { ChatRoomList, ChatHeader } from "../components";
 import { Grid2 } from "../elements";
 
 
 const ChatHome = () => {
-
-// const params = useParams();
-// console.log("CHAT : PARAMS", params);
-
 
     return (
         <React.Fragment>

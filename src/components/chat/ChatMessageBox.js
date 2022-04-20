@@ -5,25 +5,25 @@ import ChatMessage from "./ChatMessage";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { ChatCreators } from "../../redux/modules/Chat";
+import { ChatActions } from "../../redux/modules/Chat";
 
-// import Stomp from 'react-stomp';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-// import { client } from "../../redux/modules/User";
 
 
 const ChattingBox = () => {
-
+  const dispatch = useDispatch();
   const token = sessionStorage.getItem("token");
+
+  // 소켓 연결 
   let sock = new SockJS('http://121.139.34.35:8080/ws-stomp');
   let ws = Stomp.over(sock);
 
-  const dispatch = useDispatch();
-  // 방 번호
+
+  // 방 번호 {roomid:1}
   const roomId = useParams();
 
-  // 연결하고 구독하기
+  // 연결 및 구독
   function ConnectSub() {
     try {
       ws.connect({
@@ -32,10 +32,9 @@ const ChattingBox = () => {
           ws.subscribe(
             `/sub/api/chat/rooms/${roomId.roomid}`,
             (response) => {
-              // console.log("받은 메세지", response);
               const newMessage = JSON.parse(response.body);
-              console.log("받은 메세지", newMessage);
-              dispatch(ChatCreators.subMessage(newMessage));
+              // console.log("받은 메세지", newMessage);
+              dispatch(ChatActions.subMessage(newMessage));
             },
             {
                 token: token 
@@ -44,10 +43,11 @@ const ChattingBox = () => {
         }
       );
     } catch (error) {
-      console.log("fdfdfdfdf", error.response);
+      console.log("onSend : error", error.response);
     }
   }
 
+  // 연결 해제
   function DisConnectUnsub() {
     try {
       ws.disconnect( {
@@ -58,10 +58,11 @@ const ChattingBox = () => {
         { token: token }
       );
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     }
   }
 
+  // 방 이동시 연결 시도 
   React.useEffect(() => {
     ConnectSub();
     return () => {
@@ -72,11 +73,11 @@ const ChattingBox = () => {
   // 이전 메세지 가져오기
   const message = useSelector((state) => state.chat?.message)
   React.useEffect(() => {
-    dispatch(ChatCreators.getMessageDB(roomId.roomid));
+    dispatch(ChatActions.getMessageDB(roomId.roomid));
   }, [roomId.roomid])
 
+  // 스크롤 하단 고정
   const messageRef = React.useRef();
-
   const scrollToBottom = () => {
     if (messageRef.current) {
       messageRef.current.scrollTop = messageRef.current.scrollHeight;
@@ -85,9 +86,6 @@ const ChattingBox = () => {
   React.useEffect(() => {
     scrollToBottom();
   }, [message]);
-
-
-
 
 
   return (
@@ -102,10 +100,8 @@ const ChattingBox = () => {
               imgUrl={message?.user?.imgUrl}
               createdAt={message?.createdAt}
               nickName={message?.user?.nickname} /> 
-
           );
         })}
-
 
       </MessageWrapper>
       <InputWrpper>
@@ -123,7 +119,7 @@ const Wrapper = styled.div`
 const MessageWrapper = styled.div`
   
   width: 100%;
-  height: 80%;
+  height: 75%;
   overflow-y: scroll;
 `
 const InputWrpper = styled.div`
@@ -134,7 +130,7 @@ const InputWrpper = styled.div`
   bottom : 0;
 
 
-  height: 20%;
+  height: 15%;
 
   backgroud: #fff;
 `

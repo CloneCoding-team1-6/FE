@@ -1,26 +1,31 @@
 import React from "react";
 import Modal from "react-modal";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { Text } from "../../elements";
-import UserProfile from "../UserProfile";
+
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { actionCreators as userActions } from "../../redux/modules/User";
+
+import { Text } from "../../elements";
 import { FiX } from "react-icons/fi";
-import { useDispatch } from "react-redux";
+
+import UserProfile from "../UserProfile";
+
 
 
 const PersonalModal = (props) => {
+  
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // 모달 여닫기
   const [isOpen, setIsOpen] = React.useState(false);
-
   const Profile = () => {
     setIsOpen(true);
-
   }
 
+  // 로그아웃
   const LogOut = () => {
     sessionStorage.removeItem("token");
     dispatch(userActions.logoutFB());
@@ -41,7 +46,6 @@ const PersonalModal = (props) => {
           <Text bold margin="0">로그아웃</Text>
         </ButtonBox>
       </ModalBox>
-      
       
       <Modal 
       isOpen={isOpen} 
