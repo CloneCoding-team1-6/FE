@@ -19,10 +19,8 @@ const Register = (props) => {
     const [idcheck,setIdcheck]=React.useState('true');
     const [nicknamecheck,setNicknamecheck]=React.useState('true');
     const [warning,setWarning]=React.useState(false);
-    // let warning=false;
-    // console.log();
-    
-
+    const [oknickname,setokNickname]= React.useState('false');
+    const [okid,setOkid]=React.useState('false');
     const signup = () =>{
       
         if (id === '' | nickname === '' | pwd === '' | pwdcheck === '') {
@@ -45,6 +43,8 @@ const Register = (props) => {
       apis.idcheck(id).then((res)=>{
         console.log('emailcheck2');
         window.alert(res.data);
+        res.data==='사용가능한 아이디 입니다.'? setOkid(true) :  setOkid(false);
+        console.log(okid);
         //client 메시지 처리 필요
       })
       .catch((error)=>{
@@ -58,6 +58,8 @@ const Register = (props) => {
       apis.nicknamecheck(nickname)
       .then((res)=>{
         console.log('nickname check success');
+        res.data==='사용가능한 닉네임 입니다.'? setokNickname(true) :  setokNickname(false);
+        console.log(oknickname);
         window.alert(res.data);
         //client 메시지 처리 필요
       })
@@ -145,11 +147,13 @@ const Register = (props) => {
                 {warning? (<Alert style={{border:"1px solid rgba(224,30,94,.4)",backgroundColor:"rgba(224,30,90,.1)",fontWeight:"bold",margin:"0px 0px 24px 0px"}}severity="warning">비밀번호가 일치하지 않습니다.</Alert>):""}
                 
                 </div>
-                <Button variant='contained' style={{height:"44px",fontWeight:"bold", width:"100%", margin:"24px 0px 0px 0px", fontSize:"18px",color:"white", backgroundColor:"#4a154b"}} onClick={()=>{
+                {okid===true&&oknickname===true?(<Button variant='contained' style={{height:"44px",fontWeight:"bold", width:"100%", margin:"24px 0px 0px 0px", fontSize:"18px",color:"white", backgroundColor:"#4a154b"}} onClick={()=>{
                     {
                       signup();
                       console.log('회원가입');
-                    }}}>회원가입</Button>
+                    }}}>회원가입</Button>):(<Button disabled variant='contained' style={{height:"44px",fontWeight:"bold", width:"100%", margin:"24px 0px 0px 0px", fontSize:"18px",color:"grey", backgroundColor:'rgb(74, 21, 75,.5)'}} >회원가입</Button>)}
+                
+                  
 
                 
             </Registerbox>
