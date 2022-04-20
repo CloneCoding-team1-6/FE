@@ -9,7 +9,6 @@ import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { ChatCreators } from "../../redux/modules/Chat";
 import { actionCreators as userActions } from "../../redux/modules/User";
-import { useParams } from "react-router-dom";
 
 
 

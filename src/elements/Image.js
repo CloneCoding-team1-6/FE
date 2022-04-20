@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Image = (props) => {
 
-  const {shape, src, size, margin, } = props;
+  const {shape, src, size, margin, border} = props;
   const styles = {
     src: src,
     size: size,
@@ -66,15 +66,21 @@ const ImageDefault = styled.div`
 const AspectOutter = styled.div`
   width: 100%;
   min-width: 250px;
+  margin: 20px 0px 20px 0px;
 `;
 
 const AspectInner = styled.div`
+  --size: ${(props) => props.size}px;  
   position: relative;
-  padding-top: 75%;
+  // padding-top: 75%;
   overflow: hidden;
   background-image: url('${(props) => props.src}');
   background-size: cover;
   background-position: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 6px;
+  
 `;
 
 
@@ -83,7 +89,6 @@ const ImageCircle = styled.div`
   width: var(--size);
   height: var(--size);
   border-radius: var(--size);
-
   background-image: url('${(props) => props.src}');
   background-size: cover;
   background-position: center;
