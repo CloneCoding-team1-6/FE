@@ -3,7 +3,7 @@ axios.defaults.withCredentials = true;
 
 const token = sessionStorage.getItem('token');
 const api = axios.create({
-  baseURL: 'http://54.180.96.119',
+  baseURL: 'http://121.139.34.35:8080',
 });
 
 export const apis = {
@@ -41,13 +41,13 @@ export const apis = {
       "Authorization": `Bearer ${sessionStorage.getItem('token')}`
     }
   }),
-  editPost: (postId, file) => api.put(`/api/image/${postId}`, file, {
+  editimage: (file) => api.put('api/userImage', file, {
     headers: {
       'Content-Type': 'multipart/form-data',
       "Authorization": `Bearer ${sessionStorage.getItem('token')}`
     }
   }), //이미지 보내는법 확인
-
+  
 
   delPost: (postid) => api.delete(`api/post/${postid}`, {
     headers: {

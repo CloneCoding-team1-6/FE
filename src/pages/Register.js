@@ -15,8 +15,9 @@ const Register = (props) => {
     const [id, setId]= React.useState('');
     const [nickname,setNickname] =React.useState('');
     const [pwd,setPwd]= React.useState('');
-    const [pwdcheck, SetPwdcheck]=React.useState('');
-    
+    const [pwdcheck, setPwdcheck]=React.useState('');
+    const [idcheck,setIdcheck]=React.useState('true');
+    const [nicknamecheck,setNicknamecheck]=React.useState('true');
     const [warning,setWarning]=React.useState(false);
     // let warning=false;
     // console.log();
@@ -29,10 +30,7 @@ const Register = (props) => {
           return;
         };
     
-        
         if (!idCheck(id)) {
-            
-            
             console.log(warning);
             window.alert('아이디 형식이 맞지 않습니다!');
             return;
@@ -48,7 +46,7 @@ const Register = (props) => {
       console.log("email check");
       apis.idcheck(id).then((res)=>{
         console.log('emailcheck2');
-        console.log(res);
+        window.alert(res.data);
         //client 메시지 처리 필요
       })
       .catch((error)=>{
@@ -62,7 +60,7 @@ const Register = (props) => {
       apis.nicknamecheck(nickname)
       .then((res)=>{
         console.log('nickname check success');
-        console.log('res');
+        window.alert(res.data);
         //client 메시지 처리 필요
       })
       .catch((error)=>{
@@ -136,7 +134,7 @@ const Register = (props) => {
                 
                 <TextField  label="Password Check" style={inputstyles}
                 onChange={(e) => {
-                  SetPwdcheck(e.target.value);
+                    setPwdcheck(e.target.value);
                     if(pwd===e.target.value)
                     {
                       setWarning(false);
