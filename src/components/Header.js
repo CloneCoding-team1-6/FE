@@ -22,10 +22,10 @@ const Header = (props) => {
           {is_register?(""):(<div style={{textAlign:'right', fontSize:'13px',    color: (97,96,97), paddingRight:"40px"}}>
               Slack을 처음 사용하시나요?
               <br/>
-              <a style={{ color:"blue", fontWeight:"bold"}} onClick={()=>{
+              <CreateId style={{ color:"blue", fontWeight:"bold"}} onClick={()=>{
                 console.log('history push to register1');
                 history.push('./register');
-              }}>계정 생성</a>
+              }}>계정 생성</CreateId>
               {/* <button onClick={()=>{history.push('./register'); */}
             {/* console.log('history push to register1');}}>asdf</button> */}
             </div>)}
@@ -63,6 +63,10 @@ const Header1=styled.div`
     // grid-template-columns: repeat(3,1fr);
     // grid-template-rows(minmax(127px,127px));
     background-color:white;
+`;
+const CreateId=styled.a`
+&:hover {
+  cursor:pointer;
 `;
 
 export default Header;
