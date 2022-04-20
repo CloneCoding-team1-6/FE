@@ -3,6 +3,7 @@ import { produce } from "immer";
 import thunk from "redux-thunk";
 
 import Axios from "../../shared/request";
+import {RESP} from "../../shared/response" 
 import { ChatAPI } from "../../shared/api";
 
 // 액션 
@@ -10,6 +11,7 @@ const GET_CHAT_ROOM = "GET_CHAT_ROOM";
 const ADD_CHAT_ROOM = "ADD_CHAT_ROOM";
 const GET_MESSAGE = "GET_MESSAGE";
 const ENTER_ROOM = "ENTER_ROOM";
+const SEND_MESSAGE = "SEND_MESSAGE";
 
 // 초기값
 const initialState = {
@@ -23,9 +25,9 @@ const initialState = {
 const getChatRoom = createAction(GET_CHAT_ROOM, (chat_list) => ({ chat_list }));
 const addChatRoom = createAction(ADD_CHAT_ROOM, (room) => ({ room }));
 const enterRoom = createAction(ENTER_ROOM, (room) => ({ room }) );
-// 채팅 메세지
+// 이전 채팅 메세지
 const getMessage = createAction(GET_MESSAGE, (message) => ({message}));
-const sendMessage = createAction('chat/WRITEMESSAGE');
+const sendMessage = createAction(SEND_MESSAGE, (message) => ({message}));
 
 
 
@@ -96,11 +98,11 @@ const enterRoomDB = (roomId) => {
 
 
 // 유저 초대하기
-const inviteUserDB = (username) => {
+const inviteUserDB = (roomid, username) => {
   return async function (dispatch, getState, { history }) {
-    console.log("inviteUserDB : username", username);
+    console.log("inviteUserDB : username", roomid, username);
 
-    ChatAPI.inviteUser(username)
+    ChatAPI.inviteUser(roomid, username)
     .then((response) => {
       console.log("inviteUserDB : response", response);
     }).catch((error) => {
@@ -114,15 +116,15 @@ const inviteUserDB = (username) => {
 // 이전 메세지 가져오기
 const getMessageDB = (roomId) => {
   return async function (dispatch, getState, { history }) {
+    console.log("getMessage : roomId ", roomId)
 
-    // ChatAPI.getMessage(roomId)
-    // .then((response) => {
-    //   console.log("getMessageDB : response", response);
-    //   dispatch(getMessage(response.data)); 
-    // }).catch((error) => {
-    //   console.log("getMessageDB : ERROR", error);
-    // })
-
+    ChatAPI.getMessage(roomId)
+    .then((response) => {
+      console.log("getMessageDB : response", response);
+      dispatch(getMessage(response.data)); 
+    }).catch((error) => {
+      console.log("getMessageDB : ERROR", error.response);
+    })
     // const response = RESP.GET_MESSAGE;
     // console.log("getMessageDB : response", response);
     // dispatch(getMessage(response));
@@ -137,26 +139,27 @@ const getMessageDB = (roomId) => {
 export default handleActions(
   {
     [GET_CHAT_ROOM]: (state, action) => produce(state, (draft) => {
-      console.log("GET_CHAT_ROOM : chat_list", action.payload.chat_list)
+      // console.log("GET_CHAT_ROOM : chat_list", action.payload.chat_list)
       draft.list = action.payload.chat_list;
     }),
     [ADD_CHAT_ROOM]: (state, action) => produce(state, (draft) => {
-      console.log("ADD_CHAT_ROOM : room", action.payload.room)
+      // console.log("ADD_CHAT_ROOM : room", action.payload.room)
       draft.list.push(action.payload.room);
       draft.is_open = false;
-    }),
-    [GET_MESSAGE]: (state, action) => produce(state, (draft) => {
-      console.log("GET_MESSAGE : message", action.payload.message)
-      draft.message = action.payload.message;
-      // draft.message.push(action.payload);
-    }),
-    [sendMessage]: (state, action) => produce(state, (draft) => {
-      draft.sendMessage = action.payload;
     }),
     [ENTER_ROOM]: (state, action) => produce(state, (draft) => {
       // console.log("ENTER_ROOM : room", action.payload.room);
       draft.room = action.payload.room;
-    })
+    }),
+    [GET_MESSAGE]: (state, action) => produce(state, (draft) => {
+      console.log("GET_MESSAGE : message", action.payload.message);
+      draft.message = action.payload.message;
+      // draft.message.push(action.payload);
+    }),
+    [SEND_MESSAGE]: (state, action) => produce(state, (draft) => {
+      console.log("SEND_MESSAGE : message", action.payload.message);
+      draft.message = action.payload.message;
+    }),
   },
   initialState
 )
@@ -176,6 +179,7 @@ const ChatCreators = {
   enterRoomDB,
 
   sendMessage,
+
   inviteUserDB,
 }
 

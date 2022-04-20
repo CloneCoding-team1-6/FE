@@ -9,12 +9,16 @@ import Modal from "react-modal";
 
 import PersonalModal from "./PersonalModal";
 import { useDispatch, useSelector } from "react-redux";
-
+import { actionCreators as userActions } from "../../redux/modules/User";
 
 const Header = () => {
     const dispatch = useDispatch();
 
     const [isOpen, setIsOpen] = React.useState(false);
+
+    React.useEffect(() => {
+      dispatch(userActions.loginCheckFB());
+    })
 
     return (
         <React.Fragment>

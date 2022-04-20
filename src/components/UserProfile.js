@@ -28,11 +28,11 @@ const UserProfile = () => {
             console.log(error);
         })
         
-        return()=>{
-          // removeEventListener();
+        return () => {
+            // removeEventListener();
         };
-          console.log('api test');
-      },[]);
+        console.log('api test');
+    }, []);
     
     const handleimage=(e)=>{
         console.log("작성처음으로 넘어오겠지요");

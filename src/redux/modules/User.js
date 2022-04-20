@@ -23,7 +23,7 @@ const getAllUser = createAction(GET_ALL_USER, (user_list) => ({ user_list }));
 // initialState
 const initialState = {
   username: '',
-  usernickname: '',
+  nickname: '',
   user_profile: '',
   is_loaded: false,
   is_login: false,
@@ -78,7 +78,6 @@ const signupFB = (id, usernickname, pwd, pwcheck) => {
 
 const loginCheckFB = () => {
   return function (dispatch, getState, { history }) {
-
     apis.islogin()
       .then((response) => {
         console.log("loginCheckDB", response);
@@ -94,12 +93,12 @@ const loginCheckFB = () => {
   }
 };
 
+
 const logoutFB = () => {
   return function (dispatch, getState, { history }) {
     dispatch(logOut());
     history.replace('/');
   }
-
 };
 
 const getAllUserDB = () => {

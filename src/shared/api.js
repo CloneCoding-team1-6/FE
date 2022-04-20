@@ -19,56 +19,23 @@ export const apis = {
 
   idcheck: (email) => api.post('api/idCheck', { username: email }),
 
-  nicknamecheck: (nickName) => api.post('api/nickName', { nickName: nickName }),
+  nicknamecheck: (nickname) => api.post('api/nickName', { nickName: nickname }),
 
-  islogin: () => api.get("/api/isLogin", {
+  islogin: () => api.get('/api/isLogin', {
     headers: {
-      "content-type": "applicaton/json;charset=UTF-8",
-      "accept": "application/json",
       "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
     },
-    // {
-    //   // Authorization: `Bearer ${sessionStorage.getItem('token')}`
-    // },
   }),
-  // lgout: 
 
-  //post
-  Getallpost: () => api.get('/api/post'),
-  addPost: (file) => api.post('/api/image', file, {
+  getAllUser: () => api.get('/api/users', {
     headers: {
-      'Content-Type': 'multipart/form-data',
       "Authorization": `Bearer ${sessionStorage.getItem('token')}`
     }
   }),
+
   editimage: (file) => api.put('api/userImage', file, {
     headers: {
       'Content-Type': 'multipart/form-data',
-      "Authorization": `Bearer ${sessionStorage.getItem('token')}`
-    }
-  }), //이미지 보내는법 확인
-  
-
-  delPost: (postid) => api.delete(`api/post/${postid}`, {
-    headers: {
-      "Authorization": `Bearer ${sessionStorage.getItem('token')}`
-    }
-  }),
-  GetComment: (postid) => api.get(`api/post/${postid}`),
-
-  //comment
-  addComment: (postId, contents) => api.post(`api/comment/${postId}`, { comment: contents }, {
-    headers: {
-      "Authorization": `Bearer ${sessionStorage.getItem('token')}`
-    }
-  }),
-  delComment: (commentId) => api.delete(`api/comment/${commentId}`, {
-    headers: {
-      "Authorization": `Bearer ${sessionStorage.getItem('token')}`
-    }
-  }),
-  getAllUser: () => api.get('/api/users', {
-    headers: {
       "Authorization": `Bearer ${sessionStorage.getItem('token')}`
     }
   }),
@@ -77,7 +44,7 @@ export const apis = {
 }
 
 export const ChatAPI = {
-  
+
   // 방 목록 가져오기
   getChatRoom: () => api.get('/api/chat/rooms', {
     headers: {
@@ -100,14 +67,14 @@ export const ChatAPI = {
   }),
 
   // 유저 초대하기
-  inviteUser: (username) => api.post(`/api/chat/invite`, { username: username }, {
+  inviteUser: (roomid, username) => api.post(`/api/chat/invite`, { username: username, roomId: roomid }, {
     headers: {
       "Authorization": `Bearer ${sessionStorage.getItem('token')}`
     }
   }),
   
   // 이전 메세지 가져오기
-  getMessage: (roomId) => api.get(`/api/chat/rooms/${roomId}/message`, {
+  getMessage: (roomId) => api.get(`/api/chat/rooms/${roomId}/messages`, {
     headers: {
       "Authorization": `Bearer ${sessionStorage.getItem('token')}`
     }

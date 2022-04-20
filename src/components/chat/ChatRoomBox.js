@@ -9,7 +9,7 @@ import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { ChatCreators } from "../../redux/modules/Chat";
 import { actionCreators as userActions } from "../../redux/modules/User";
-
+import { useParams } from "react-router-dom";
 
 
 const ChatRoom = () => {
@@ -24,13 +24,18 @@ const ChatRoom = () => {
 
   const user_list = useSelector((state) => state.user?.user_list);
   const roomName = useSelector((state) => state.chat?.room?.roomName);
+  const roomId = useParams();
+  const username = useSelector((state) => state.user?.user?.username);
 
-  console.log("ChatRoomBox : user_list", user_list);
+  console.log(username)
+  
+
+  // console.log("ChatRoomBox : user_list", user_list);
   
   const email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
   const inviteUser = () => {
-    console.log("ChatRoom : userName", userName.current.value);
+    // console.log("ChatRoom : userName", userName.current.value);
     if(userName.current.value==="") {
       userName.current.value = "";
       return window.alert("사용자 아이디를 입력해주세요!")
@@ -39,7 +44,14 @@ const ChatRoom = () => {
       userName.current.value = "";
       return window.alert("이메일 형식의 아이디를 입력해주세요.")
     }
-    dispatch(ChatCreators.inviteUserDB(userName.current.value));
+    if(userName.current.value === username) {
+      userName.current.value = "";
+      return window.alert("본인은 초대할 수 없습니다")
+    }
+
+    // console.log(roomId.roomid)
+
+    dispatch(ChatCreators.inviteUserDB(roomId.roomid, userName.current.value));
     setIsOpen(false);
   }
 
