@@ -23,7 +23,7 @@ const getAllUser = createAction(GET_ALL_USER, (user_list) => ({ user_list }));
 // initialState
 const initialState = {
   username: '',
-  usernickname: '',
+  nickname: '',
   user_profile: '',
   is_loaded: false,
   is_login: false,
@@ -81,15 +81,10 @@ const loginCheckFB = () => {
 
     apis.islogin()
       .then((response) => {
-        console.log("loginCheckDB", response);
-        if (response.data) {
-          dispatch(setUser())
-        } else {
-          console.log("유저데이터 없음");
-          dispatch.logOut();
-        }
+          dispatch(setUser(response.data))
+        
       }).catch((error) => {
-        console.log("토큰 전달 오류", error);
+        console.log(error.response);
       });
   }
 };
@@ -99,7 +94,6 @@ const logoutFB = () => {
     dispatch(logOut());
     history.replace('/');
   }
-
 };
 
 const getAllUserDB = () => {
