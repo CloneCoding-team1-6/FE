@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Text } from "../../elements";
 import UserProfile from "../UserProfile";
 
-import { actionCreators as userActions } from "../../redux/modules/user";
+import { actionCreators as userActions } from "../../redux/modules/User";
 import { useDispatch } from "react-redux";
 
 

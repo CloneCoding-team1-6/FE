@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import { idCheck}  from '../shared/common';
 import {useDispatch } from 'react-redux'; 
-import { actionCreators as userActions } from '../redux/modules/user';
+import { actionCreators as userActions } from '../redux/modules/User';
 
 // import { ButtonProps } from '@mui/material/Button';
 const Register = (props) => {
