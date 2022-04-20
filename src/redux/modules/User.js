@@ -10,13 +10,13 @@ import jwtDecode from 'jwt-decode';
 // actions
 const SET_USER = 'SET_USER';
 const LOG_OUT = 'LOG_OUT';
-const GET_USER = 'GET_USER';
+const GET_IMAGE = 'GET_IMAGE';
 const GET_ALL_USER = 'GET_ALL_USER';
 
 // action creators
 const setUser = createAction(SET_USER, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
-const getUser = createAction(GET_USER, (user) => ({ user }));
+const getImage = createAction(GET_IMAGE, (imgUrl) => ({ imgUrl }));
 const getAllUser = createAction(GET_ALL_USER, (user_list) => ({ user_list }));
 
 
@@ -24,7 +24,7 @@ const getAllUser = createAction(GET_ALL_USER, (user_list) => ({ user_list }));
 const initialState = {
   username: '',
   nickname: '',
-  user_profile: '',
+  imgUrl: '',
   is_loaded: false,
   is_login: false,
 };
@@ -50,7 +50,8 @@ const loginFB = (id, pwd) => {
           id: decode.USER_ID,
         }
 
-        dispatch(setUser(user_data));
+        // dispatch(setUser(user_data));
+        dispatch(loginCheckFB());
         history.replace('/chat');
 
       }).catch((error) => {
@@ -82,7 +83,8 @@ const loginCheckFB = () => {
       .then((response) => {
         console.log("loginCheckDB", response);
         if (response.data) {
-          dispatch(setUser())
+          console.log(response.data.user);
+          dispatch(setUser({...response.data}))
         } else {
           console.log("유저데이터 없음");
           dispatch.logOut();
@@ -115,6 +117,7 @@ const getAllUserDB = () => {
 
 
 
+
 // reducer 
 export default handleActions(
   {
@@ -133,8 +136,8 @@ export default handleActions(
         draft.is_login = false;
         draft.is_loaded = true;
       }),
-    [GET_USER]: (state, action) => produce(state, (draft) => {
-
+    [GET_IMAGE]: (state, action) => produce(state, (draft) => {
+      draft.user.push(action.payload.imgUrl);
     }),
     [GET_ALL_USER]: (state, action) => produce(state, (draft) => {
       draft.user_list = action.payload.user_list;
@@ -147,12 +150,12 @@ export default handleActions(
 const actionCreators = {
   setUser,
   logOut,
-  getUser,
   loginFB,
   signupFB,
   loginCheckFB,
   logoutFB,
   getAllUserDB,
+  getImage,
 };
 
 export { actionCreators };

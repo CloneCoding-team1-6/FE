@@ -27,7 +27,7 @@ const ChatRoom = () => {
   const roomId = useParams();
   const username = useSelector((state) => state.user?.user?.username);
 
-  console.log(username)
+  console.log(roomName);
   
 
   // console.log("ChatRoomBox : user_list", user_list);

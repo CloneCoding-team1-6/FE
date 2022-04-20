@@ -9,8 +9,9 @@ import { idCheck}  from '../shared/common';
 import {useDispatch } from 'react-redux'; 
 import { actionCreators as userActions } from '../redux/modules/User';
 
-// import { ButtonProps } from '@mui/material/Button';
+
 const Register = (props) => {
+  
   const dispatch=useDispatch();
     const [id, setId]= React.useState('');
     const [nickname,setNickname] =React.useState('');
@@ -19,8 +20,6 @@ const Register = (props) => {
     const [idcheck,setIdcheck]=React.useState('true');
     const [nicknamecheck,setNicknamecheck]=React.useState('true');
     const [warning,setWarning]=React.useState(false);
-    // let warning=false;
-    // console.log();
     
 
     const signup = () =>{
@@ -35,7 +34,6 @@ const Register = (props) => {
             window.alert('아이디 형식이 맞지 않습니다!');
             return;
           }
-
 
           dispatch(userActions.signupFB(id, nickname, pwd, pwdcheck));
         

@@ -27,6 +27,8 @@ const ChatInput = (props) => {
   const [text, setText] = React.useState('');
   // 방
   const roomId = useParams();  
+  const imgUrl = useSelector((state) => state.user?.user?.imgUrl);
+
 
   const token = sessionStorage.getItem('token');
 
@@ -55,9 +57,8 @@ const ChatInput = (props) => {
         { token: token },
         JSON.stringify(message)
       );
-      console.log(ws.ws.readyState);
-      dispatch(ChatCreators.sendMessage(message));
-      setText("");
+      // console.log("dfdfdf", ws.ws);
+      text.target.value="";
     });
   } catch (error) {
     console.log(error);
@@ -83,6 +84,12 @@ const ChatInput = (props) => {
     );
   }
 
+  const enterEvent = (e) => {
+    if(e.key === 'Enter') {
+      onSend();
+    }
+  }
+
 
   return (
     <React.Fragment>
@@ -90,7 +97,7 @@ const ChatInput = (props) => {
       <Center>
         <Box>
           <Box2 bg="#fafafa" br="6px 6px 0 0"/>
-            <InputBox onChange={setText}/>
+            <InputBox onChange={setText} onKeyPress={enterEvent}/>
           <Button sendBtn _onClick={onSend} value={text}>
 
             <HiPaperAirplane color="#aaa" size="18px" transform="rotate(90)"/>

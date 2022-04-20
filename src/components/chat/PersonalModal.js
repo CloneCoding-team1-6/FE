@@ -6,6 +6,7 @@ import { Text } from "../../elements";
 import UserProfile from "../UserProfile";
 
 import { actionCreators as userActions } from "../../redux/modules/User";
+import { FiX } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 
 
@@ -17,6 +18,7 @@ const PersonalModal = (props) => {
 
   const Profile = () => {
     setIsOpen(true);
+
   }
 
   const LogOut = () => {
@@ -29,7 +31,9 @@ const PersonalModal = (props) => {
   return (
     <React.Fragment>
       <ModalBox>
-        <ButtonBox onClick={Profile}>
+        <ButtonBox onClick={() => {
+          Profile();
+          }}>
           <Text bold margin="0">프로필</Text>
         </ButtonBox>
         <hr />
@@ -48,10 +52,14 @@ const PersonalModal = (props) => {
             overlay: {
               position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.75)'
             },
-            content: { position: 'absolute', margin: 'auto', width: 'fit-content', height: 'fit-content', background: '#fff',
+            content: { position: 'absolute', margin: 'auto', padding: '30px 20px', width: 'fit-content', height: 'fit-content', background: '#fff',
               overflow: 'auto', WebkitOverflowScrolling: 'touch', outline: 'none',
             }}}>
-
+        <IconBox>
+          <FiX className="icon" onClick={() => {
+            setIsOpen(false)
+                }} />
+        </IconBox>
         <UserProfile/>
 
       </Modal>
@@ -72,6 +80,15 @@ const ButtonBox = styled.div`
   margin: auto;
   width: 100%;
   height: fit-content;
+`
+
+const IconBox = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: fit-content;
+  height: fit-content;
+
 `
 
 

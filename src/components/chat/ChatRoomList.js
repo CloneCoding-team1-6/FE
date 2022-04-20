@@ -8,7 +8,7 @@ import { ChatCreators } from "../../redux/modules/Chat";
 
 import { Grid2, Text, Button } from "../../elements";
 import { GoChevronDown, GoTriangleDown } from "react-icons/go";
-import { FiEdit } from "react-icons/fi";
+import { FiEdit, FiX } from "react-icons/fi";
 
 
 const ChatList = (props) => {
@@ -93,6 +93,9 @@ const ChatList = (props) => {
             }}}>
 
           <ModalBox>
+            <FiX className="icon" onClick={() => {
+              setIsOpen(false)
+              }}/>
             <Text bold margin="0" size="1.8em">채널 생성</Text>
             <Text color="#858485" > 채널은 팀이 소통하는 공간입니다. 채널은 주제(예:마케팅)를 중심으로 구성하는 것이 가장 좋습니다.</Text>
             <Grid2 height="fit-content">
@@ -164,6 +167,11 @@ const ModalBox = styled.div`
     height: 450px;
 
     border-radius: 10px;
+    .icon {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+    }
 `
 const ModalInput = styled.input`
     box-sizing: border-box;

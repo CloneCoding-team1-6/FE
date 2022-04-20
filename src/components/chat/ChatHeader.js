@@ -11,14 +11,18 @@ import PersonalModal from "./PersonalModal";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../../redux/modules/User";
 
+
 const Header = () => {
     const dispatch = useDispatch();
+    const [ModalisOpen, setModalIsOpen] = React.useState(false);
 
-    const [isOpen, setIsOpen] = React.useState(false);
+    const imgUrl = useSelector((state) => state.user?.user?.imgUrl);
+
+    console.log("HEADER : IMGURL ", imgUrl);
 
     React.useEffect(() => {
       dispatch(userActions.loginCheckFB());
-    })
+    }, [])
 
     return (
         <React.Fragment>
@@ -29,12 +33,12 @@ const Header = () => {
                         <IoSearch className="icon2" color="#fff" size="20px" />
                         <InputBox placeholder="새 워크스페이스 검색"></InputBox>
                     </OuterBox>
-                    <ImageBox onClick={() => { setIsOpen(true) }} />
+                    <ImageBox onClick={() => { setModalIsOpen(true) }} src={imgUrl}/>
                 </Grid2>
-                {isOpen ? <Modal
-                    isOpen={isOpen}
+                {ModalisOpen ? <Modal
+                    isOpen={ModalisOpen}
                     ariaHideApp={false}
-                    onRequestClose={() => setIsOpen(false)}
+                    onRequestClose={() => setModalIsOpen(false)}
                     style={{
                         overlay: {
                             position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0)'
@@ -116,9 +120,8 @@ const ImageBox = styled.div`
 
   border-radius: 4px;
 
-  background-image: url('https://i.pinimg.com/474x/19/08/a7/1908a7eae6903f9d5861b62b1e025788.jpg');
+  background-image: url('${(props)=>props.src}');
   background-size: cover;
-  ${'' /* background: #ddd; */}
 `
 
 

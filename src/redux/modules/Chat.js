@@ -1,9 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import thunk from "redux-thunk";
 
-import Axios from "../../shared/request";
-import {RESP} from "../../shared/response" 
 import { ChatAPI } from "../../shared/api";
 
 // 액션 
@@ -11,7 +8,7 @@ const GET_CHAT_ROOM = "GET_CHAT_ROOM";
 const ADD_CHAT_ROOM = "ADD_CHAT_ROOM";
 const GET_MESSAGE = "GET_MESSAGE";
 const ENTER_ROOM = "ENTER_ROOM";
-const SEND_MESSAGE = "SEND_MESSAGE";
+const SUB_MESSAGE = "SUB_MESSAGE";
 
 // 초기값
 const initialState = {
@@ -27,8 +24,7 @@ const addChatRoom = createAction(ADD_CHAT_ROOM, (room) => ({ room }));
 const enterRoom = createAction(ENTER_ROOM, (room) => ({ room }) );
 // 이전 채팅 메세지
 const getMessage = createAction(GET_MESSAGE, (message) => ({message}));
-const sendMessage = createAction(SEND_MESSAGE, (message) => ({message}));
-
+const subMessage = createAction(SUB_MESSAGE, (message) => ({ message }));
 
 
 // 미들웨어
@@ -89,6 +85,7 @@ const enterRoomDB = (roomId) => {
         roomName: response.data.chatRoomName,
       }
       dispatch(enterRoom(room_data))
+      dispatch(getMessageDB(room_data.roomId));
       history.push(`/chat/`+response.data.id); 
     }).catch((error) => {
       console.log("enterRoomDB : error.response", error.response);
@@ -121,7 +118,7 @@ const getMessageDB = (roomId) => {
     ChatAPI.getMessage(roomId)
     .then((response) => {
       console.log("getMessageDB : response", response);
-      dispatch(getMessage(response.data)); 
+      dispatch(getMessage(response.data.content)); 
     }).catch((error) => {
       console.log("getMessageDB : ERROR", error.response);
     })
@@ -130,8 +127,6 @@ const getMessageDB = (roomId) => {
     // dispatch(getMessage(response));
   }
 }
-
-
 
 
 
@@ -156,10 +151,10 @@ export default handleActions(
       draft.message = action.payload.message;
       // draft.message.push(action.payload);
     }),
-    [SEND_MESSAGE]: (state, action) => produce(state, (draft) => {
-      console.log("SEND_MESSAGE : message", action.payload.message);
-      draft.message = action.payload.message;
-    }),
+    [SUB_MESSAGE]: (state, action) => produce(state, (draft) => {
+      console.log("SUB_MESSAGE : message", action.payload.message);
+      draft.message.push(action.payload.message);
+    })
   },
   initialState
 )
@@ -178,7 +173,7 @@ const ChatCreators = {
   enterRoom,
   enterRoomDB,
 
-  sendMessage,
+  subMessage,
 
   inviteUserDB,
 }

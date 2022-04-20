@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Grid2, Text } from "../../elements";
+import { useSelector } from "react-redux";
 
 
 
@@ -8,14 +9,16 @@ import { Grid2, Text } from "../../elements";
 
 const ChatMessage = (props) => {
 
-  const {message, nickName, createdAt} = props;
+  const {message, nickName, createdAt, imgUrl} = props;
+
+
 
   return (
     <React.Fragment>
       <OuterBox>
         <InnerBox>
           <Grid2 is_flex width="70vw" height="fit-content">
-            <ImageBox />
+            <ImageBox src={imgUrl}/>
             <MessageBox>
               <Grid2 is_flex width="fit-content" height="30px">
                 <Text bold margin="0">{nickName}</Text>
@@ -49,7 +52,7 @@ const ImageBox = styled.div`
   width: 40px;
   height: 40px;
 
-  background-image: url('https://i.pinimg.com/474x/19/08/a7/1908a7eae6903f9d5861b62b1e025788.jpg');
+  background-image: url('${(props)=>props.src}');
   background-size: cover;
   border-radius: 4px;
 `
