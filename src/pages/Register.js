@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import { idCheck}  from '../shared/common';
 import {useDispatch } from 'react-redux'; 
-import { actionCreators as userActions } from '../redux/modules/user';
+import { actionCreators as userActions } from '../redux/modules/User';
 
 // import { ButtonProps } from '@mui/material/Button';
 const Register = (props) => {
@@ -35,10 +35,8 @@ const Register = (props) => {
             window.alert('아이디 형식이 맞지 않습니다!');
             return;
           }
-        if (id === '' || pwd === '') {
-            window.alert('아이디와 비밀번호를 모두 입력해주세요!');
-            return;
-          }
+
+
           dispatch(userActions.signupFB(id, nickname, pwd, pwdcheck));
         
     };
@@ -69,13 +67,7 @@ const Register = (props) => {
       })
       
     }
-    React.useEffect(()=>{
-      return()=>{
-        // removeEventListener();
-      };
-        console.log(warning);
-    },[warning]);
-    
+
     
   return (
     <Page>

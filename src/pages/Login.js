@@ -9,7 +9,7 @@ import Alert from '@mui/material/Alert';
 import { idCheck } from '../shared/common';
 import { HiOutlineSparkles } from "react-icons/hi";
 import {useDispatch } from 'react-redux'; 
-import { actionCreators as userActions } from '../redux/modules/user';
+import { actionCreators as userActions } from '../redux/modules/User';
 
 
 const Login = (props) => {

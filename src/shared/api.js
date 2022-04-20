@@ -33,6 +33,13 @@ export const apis = {
     }
   }),
 
+  editimage: (file) => api.put('api/userImage', file, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+    }
+  }),
+
   //
 }
 

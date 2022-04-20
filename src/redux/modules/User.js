@@ -78,16 +78,21 @@ const signupFB = (id, usernickname, pwd, pwcheck) => {
 
 const loginCheckFB = () => {
   return function (dispatch, getState, { history }) {
-
     apis.islogin()
       .then((response) => {
-          dispatch(setUser(response.data))
-        
+        console.log("loginCheckDB", response);
+        if (response.data) {
+          dispatch(setUser())
+        } else {
+          console.log("유저데이터 없음");
+          dispatch.logOut();
+        }
       }).catch((error) => {
-        console.log(error.response);
+        console.log("토큰 전달 오류", error);
       });
   }
 };
+
 
 const logoutFB = () => {
   return function (dispatch, getState, { history }) {
