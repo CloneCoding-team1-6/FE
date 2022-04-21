@@ -32,6 +32,10 @@ const loginFB = (id, pwd) => {
 
     apis.login(id, pwd)
       .then((response) => {
+
+        const token = response.headers.authorization.split(" ")[1];
+        sessionStorage.setItem("token", token);
+
         dispatch(loginCheckFB());
         history.replace('/chat/1');
       }).catch((error) => {
@@ -98,7 +102,7 @@ export default handleActions(
   {
     [SET_USER]: (state, action) =>
       produce(state, (draft) => {
-        console.log('SET_USER : user', action.payload.user);
+        // console.log('SET_USER : user', action.payload.user);
         draft.user = action.payload.user;
         draft.is_login = true;
       }),

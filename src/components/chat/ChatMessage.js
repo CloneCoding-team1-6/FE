@@ -7,19 +7,31 @@ import { Grid2, Text } from "../../elements";
 const ChatMessage = (props) => {
 
   const {message, nickName, createdAt, imgUrl} = props;
+  
+  const time = createdAt.split(" ");
+  // 오전 / 오후
+  const type = time[1]
+  // 시
+  const hour = time[0].split(":")[0];
+  // 분
+  const minute = time[0].split(":")[1];
 
   return (
     <React.Fragment>
       <OuterBox>
         <InnerBox>
           <Grid2 is_flex width="70vw" height="fit-content">
-            <ImageBox src={imgUrl}/>
+            <ImageWrapper>
+            <Grid2 width="40px" height="40px">
+              <ImageBox src={imgUrl}/>
+            </Grid2>
+            </ImageWrapper>
             <MessageBox>
-              <Grid2 is_flex width="fit-content" height="30px">
+              <Grid2 is_flex width="fit-content" height="fit-content">
                 <Text bold margin="0">{nickName}</Text>
-                <Text margin="0 10px" size="0.8em">{createdAt}</Text>
+                <Text margin="0 10px" size="0.8em">{type} {hour}:{minute}</Text>
               </Grid2>
-              <Grid2 width="fit-content" margin="0">
+              <Grid2 width="fit-content" margin="5px 0">
                 <Text margin="0 0">{message}</Text>
               </Grid2>
             </MessageBox>
@@ -38,12 +50,20 @@ const OuterBox = styled.div`
 `
 
 const InnerBox = styled.div`
+  position: relative;
   margin: 0 20px;
 
-  height: 70px;
+  height: fit-content;
+  min-height: 70px;
+`
+
+const ImageWrapper = styled.div`
 `
 
 const ImageBox = styled.div`
+  position: absolute;
+  top: 13px;
+
   width: 40px;
   height: 40px;
 
@@ -54,11 +74,14 @@ const ImageBox = styled.div`
   border-radius: 4px;
 `
 
+
 const MessageBox = styled.div`
+  word-break: break-all;
   margin: 10px;
 
   width: 100%;
-  height: 56px;
+  height: fit-content;
+
 `
 
 

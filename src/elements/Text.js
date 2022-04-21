@@ -28,7 +28,7 @@ Text.defaultProps = {
 
 const P = styled.p`
   font-family: 'Pretendard-Regular';
-  word-break: keep-all;
+  word-break:break-all;
   color: ${(props) => props.color};
   font-size: ${(props) => props.size};
   font-weight: ${(props) => (props.bold ? "700" : "400")};

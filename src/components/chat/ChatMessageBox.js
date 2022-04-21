@@ -10,7 +10,6 @@ import { ChatActions } from "../../redux/modules/Chat";
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
-
 const ChattingBox = () => {
   const dispatch = useDispatch();
   const token = sessionStorage.getItem("token");
@@ -19,13 +18,14 @@ const ChattingBox = () => {
   let sock = new SockJS('http://121.139.34.35:8080/ws-stomp');
   let ws = Stomp.over(sock);
 
-
   // 방 번호 {roomid:1}
   const roomId = useParams();
 
   // 연결 및 구독
   function ConnectSub() {
     try {
+      // 콘솔창에 메세지 출력되지 않도록 설정
+      ws.debug = null;
       ws.connect({
         token: token
       }, () => {
@@ -50,6 +50,8 @@ const ChattingBox = () => {
   // 연결 해제
   function DisConnectUnsub() {
     try {
+      // 콘솔창에 메세지 출력되지 않도록 설정
+      ws.debug = null;
       ws.disconnect( {
         token: token
       }, () => {
@@ -117,7 +119,6 @@ const Wrapper = styled.div`
   height: 100vh;
 `
 const MessageWrapper = styled.div`
-  
   width: 100%;
   height: 75%;
   overflow-y: scroll;

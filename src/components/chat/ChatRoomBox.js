@@ -12,6 +12,7 @@ import { Text, Grid2 } from "../../elements";
 import { GoChevronDown } from "react-icons/go";
 
 import ChatMessageBox from "./ChatMessageBox";
+import ChatInput from "./ChatInput";
 
 
 const ChatRoom = () => {
@@ -69,13 +70,16 @@ const ChatRoom = () => {
           <Text bold margin="0 20px" size="1.2em">
             # {roomName}
             <GoChevronDown size="15px" />
-            <BtnBox>
-              {roomId === "1" ? null : <AddBtn onClick={openModal}>초대하기</AddBtn>}
-              {roomId === "1" ? null : <OutBtn onClick={leaveRoom}>퇴장하기</OutBtn>}
-            </BtnBox>
           </Text>
+          <BtnBox>
+            {roomId === "1" ? null : <AddBtn onClick={openModal}>초대하기</AddBtn>}
+            {roomId === "1" ? null : <OutBtn onClick={leaveRoom}>퇴장하기</OutBtn>}
+          </BtnBox>
         </ChatRoomHeader>
-        <ChatMessageBox />
+        <Grid2>
+            <ChatMessageBox />
+
+        </Grid2>
         <Modal
           isOpen={isOpen}
           ariaHideApp={false}

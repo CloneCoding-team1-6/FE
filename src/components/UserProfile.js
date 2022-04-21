@@ -6,11 +6,14 @@ import moment from "moment";
 import { apis } from "../shared/api";
 import { actionCreators as userActions } from "../redux/modules/User";
 
+
 import { Image } from "../elements";
 import Button from '@material-ui/core/Button';
 import {HiDotsHorizontal} from "react-icons/hi";
 import {BsEmojiSmile, BsPencil} from "react-icons/bs"
 import { FiX } from "react-icons/fi";
+import { ChatActions } from "../redux/modules/Chat";
+import { useParams } from "react-router-dom";
 
 
 
@@ -18,6 +21,7 @@ const UserProfile = (props) => {
 
     const dispatch = useDispatch();
     const {setIsOpen} = props;
+    const roomId = useParams();
 
     const nowTime=moment().format('HH:MM');
     const date=nowTime.split(':')[0]>12?'오후':'오전';
@@ -51,7 +55,8 @@ const UserProfile = (props) => {
         .then((res)=>{
             console.log("UserProfile : handleimage", res);
             setImagesrc(res.data);
-            dispatch(userActions.loginCheckFB())
+            dispatch(ChatActions.getMessageDB(roomId.roomid));
+            dispatch(userActions.loginCheckFB());
         })
         .catch((error)=>{
             console.log(error.response);

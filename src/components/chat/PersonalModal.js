@@ -15,10 +15,10 @@ import UserProfile from "../UserProfile";
 
 
 const PersonalModal = (props) => {
-  
+
   const dispatch = useDispatch();
   const history = useHistory();
-
+  
   // 모달 여닫기
   const [isOpen, setIsOpen] = React.useState(false);
   const Profile = () => {

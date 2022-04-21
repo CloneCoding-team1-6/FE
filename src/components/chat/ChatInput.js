@@ -12,9 +12,9 @@ import Stomp from 'stompjs';
 
 
 const ChatInput = (props) => {
+
   const token = sessionStorage.getItem('token');
   const history = useHistory();
-
 
   // 보내는 사람
   const sender = useSelector((state) => state.user?.user?.username)
@@ -27,23 +27,29 @@ const ChatInput = (props) => {
   let sock = new SockJS('http://121.139.34.35:8080/ws-stomp');
   let ws = Stomp.over(sock);
 
+  const blank = /^\s+|\s+$/g;
   // 메세지 보내기
   const onSend = async () => {
   try {
+    if(text.target.value.replace(blank,'') === "") {
+      return;
+    }
     if (!token) {
       alert('문제가 발생했습니다. 다시 로그인 해주세요.');
       history.replace('/');
     }
+
+    // 보낼 데이터 
     const message = {
       roomId: roomId.roomid,
       message: text.target.value,
       sender: sender,
       type: 'TALK',
     }
-    if (text === '') {
-      return;
-    }
+    
     waitForConnection(ws, function () {
+      // 콘솔창에 메세지 출력되지 않도록 설정
+      ws.debug = null;
       ws.send(
         '/pub/api/chat/message',
         { token: token },
@@ -76,7 +82,6 @@ const ChatInput = (props) => {
       onSend();
     }
   }
-
 
   return (
     <React.Fragment>
