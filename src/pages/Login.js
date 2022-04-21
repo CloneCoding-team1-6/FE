@@ -116,7 +116,6 @@ const styles = {
 const inputstyles = {
     width: "100%",
     padding: "",
-    // height:"44px",
     minWidth: "96px",
     margin: "15px 0px 15px 0px",
 
@@ -125,7 +124,6 @@ const warninginput = {
 
     width: "100%",
     padding: "",
-    // height:"44px",
     minWidth: "96px",
     margin: "0px 0px 0px 0px",
     border: "1px solid rgba(224,30,94,.4)",

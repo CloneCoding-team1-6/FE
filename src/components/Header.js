@@ -38,22 +38,6 @@ const Header = (props) => {
 
 Header.defaultProps = {};
 
-// const Logo = styled.a`
-//   text-decoration: none;
-//   img {
-//     width: 15%;
-//   }
-//   div {
-//     background-image: url("https://user-images.githubusercontent.com/91959791/163001319-d6e449d7-8443-4106-8128-902e93a889f4.png");
-//     background-size: cover;
-//     background-position: center;
-//     width: 150px;
-//     height: 150px;
-//     margin: -20px auto 0;
-//     padding: 0 30px 0px 30px;
-//     // margin: -20px 0 0 0;
-//   }
-// `;
 const Header1=styled.div`
     padding: 48px 0 40px;
     width: 100%;

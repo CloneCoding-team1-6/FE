@@ -45,7 +45,6 @@ const Register = (props) => {
         window.alert(res.data);
         res.data==='사용가능한 아이디 입니다.'? setOkid(true) :  setOkid(false);
         console.log(okid);
-        //client 메시지 처리 필요
       })
       .catch((error)=>{
         console.log('emailcheck error');
@@ -61,7 +60,6 @@ const Register = (props) => {
         res.data==='사용가능한 닉네임 입니다.'? setokNickname(true) :  setokNickname(false);
         console.log(oknickname);
         window.alert(res.data);
-        //client 메시지 처리 필요
       })
       .catch((error)=>{
         console.log('nicknamecheck error');
@@ -88,8 +86,6 @@ const Register = (props) => {
                         setId(e.target.value);
                         console.log(e.target.value);
                       }}
-                        // hintText="Password"
-                        // floatingLabelText="Password"
                         >
                             
                     </TextField>
@@ -100,13 +96,10 @@ const Register = (props) => {
 
                 <Checkbox>
                     <TextField label="Nickname" style={inputstyles}
-                    // ForwardRef={id}
                     onChange={(e) => {
                       setNickname(e.target.value);
                         console.log(e.target.value);
                       }}
-                        // hintText="Password"
-                        // floatingLabelText="Password"
                         >
                             
                     </TextField>
@@ -116,12 +109,9 @@ const Register = (props) => {
                 </Checkbox>
                 <div>
                 <TextField label="Password" style={inputstyles}
-                // ForwardRef={id}
                 onChange={(e) => {
                     setPwd(e.target.value);
                   }}
-                    // hintText="Password"
-                    // floatingLabelText="Password"
                     type='password'>
                         
                 </TextField>
@@ -138,8 +128,6 @@ const Register = (props) => {
                     }
                     
                   }}
-                    // hintText="Password"
-                    // floatingLabelText="Password"
                     type='password'
                     >
                 
