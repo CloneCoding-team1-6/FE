@@ -1,6 +1,8 @@
 # 클론코딩 : Slack
 
 ### 📅 2022.04.15 - 2022.04.21
+[![클론코딩 : 슬랙](http://img.youtube.com/vi/2ggp4cQdW-M/0.jpg)](https://youtu.be/2ggp4cQdW-M) 
+
 
 ## 👨‍👩‍👧 팀원
 
